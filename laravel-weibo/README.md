@@ -15,6 +15,33 @@ cd src && composer create-project laravel/laravel .
 cd ../ && docker-compose up -d  --build
 `
 
+3.
+enjoy your coding
+
+4.
+Use this project in your project by git subtree.
+
+1）add subproject
+
+`
+git clone https://github.com/chaos2171053/laravel-template-docker.git
+`
+
+`
+git subtree add --prefix=<prefix> <repository> <ref>
+`
+2)split the project as your subproject
+
+`
+git subtree split --prefix=<project name or file name> --branch <branch name>
+`
+
+3) if you want to share your code to this project
+
+`
+git subtree push --prefix=<your project name> https://github.com/chaos2171053/laravel-template-docker.git master
+`
+
 ## commands
 
 
@@ -45,6 +72,7 @@ docker-compose run --rm composer update
 docker-compose run --rm npm run dev
 docker-compose run --rm artisan migrate
 `
+
 
 
 
