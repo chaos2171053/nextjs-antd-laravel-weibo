@@ -10,6 +10,7 @@ A tempalte of laravel by docker.
 `
 cd src && composer create-project laravel/laravel .
 `
+
 2.
 `
 cd ../ && docker-compose up -d  --build
@@ -23,13 +24,16 @@ Use this project in your project by git subtree.
 
 1）add subproject
 
+
 `
 git clone https://github.com/chaos2171053/laravel-template-docker.git
 `
 
+
 `
 git subtree add --prefix=<prefix> <repository> <ref>
 `
+
 2)split the project as your subproject
 
 `
