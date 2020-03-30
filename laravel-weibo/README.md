@@ -1,5 +1,22 @@
 # laravel-template-docker
 
+A tempalte of laravel by docker.
+
+
+## Usage
+
+1.
+
+`
+cd src && composer create-project laravel/laravel .
+`
+2.
+`
+cd ../ && docker-compose up -d  --build
+`
+
+## commands
+
 
 `
 docker-compose build && docker-compose up -d  
@@ -28,6 +45,8 @@ docker-compose run --rm composer update
 docker-compose run --rm npm run dev
 docker-compose run --rm artisan migrate
 `
+
+
 
 
 ### Reference 
