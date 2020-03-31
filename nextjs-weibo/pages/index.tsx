@@ -7,6 +7,7 @@ import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
 import withRoot from "../themes/chaos-ui/modules/WithRoot";
 import AppAppBar from "../themes/chaos-ui/modules/views/AppAppBar";
+import AppFooter from "../themes/chaos-ui/modules/views/AppFooter";
 
 
 interface IProps {
@@ -25,6 +26,7 @@ const IndexPage = (props: IProps) => {
       <Page title="首页 微博-随时随地发现新鲜事">
         <SocialMeta {...webConfig.theme} />
         <AppAppBar />
+        <AppFooter />
       </Page>
     </>
   );
