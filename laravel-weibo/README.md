@@ -17,6 +17,11 @@ cd ../ && docker-compose up -d  --build
 `
 
 3.
+
+in `.env` file,
+DB_HOST=use your local ip,no 127.0.0.1
+
+4.
 enjoy your coding
 
 4.
@@ -71,10 +76,9 @@ docker-compose up -d  --build
 
 
 `
-docker-compose run --rm npm install
 docker-compose run --rm composer update
-docker-compose run --rm npm run dev
 docker-compose run --rm artisan migrate
+composer dump-autoload
 `
 
 
