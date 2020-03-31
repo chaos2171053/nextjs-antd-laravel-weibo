@@ -26,7 +26,7 @@ interface IConfig {
 
 const config: IConfig = {
     theme: {
-        title: "不断更365",
+        title: "weibo",
         author: "Chaos",
         authorDescription: "emm...",
         description: "不断更365是Chaos的个人博客，用来记录chaos的思考。",

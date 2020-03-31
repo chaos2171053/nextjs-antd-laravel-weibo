@@ -11,7 +11,7 @@ function Page({ title, description, children }: IProps) {
     return (
         <div className="root">
             <Head>
-                <title>{title || "不断更365 - Chaos`s blog"}</title>
+                <title>{title || "微博-随时随地发现新鲜事"}</title>
                 {description && (
                     <meta
                         name="description"
