@@ -33,12 +33,14 @@ function SignUp() {
     const [sent, setSent] = React.useState(false);
 
     const validate = (values) => {
-        const errors = required(['firstName', 'lastName', 'email', 'password'], values);
-
+        const errors = required(['name', 'email', 'password'], values);
+        if (!errors.name) {
+            errors.name = 'name is required'
+        }
         if (!errors.email) {
             const emailError = email(values.email);
             if (emailError) {
-                errors.email = email(values.email);
+                errors.email = emailError;
             }
         }
 
@@ -66,6 +68,15 @@ function SignUp() {
                 <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
                     {({ handleSubmit, submitting }) => (
                         <form onSubmit={handleSubmit} className={classes.form} noValidate>
+                            <Field
+                                autoFocus
+                                component={RFTextField}
+                                autoComplete="Name"
+                                fullWidth
+                                label="Name"
+                                name="name"
+                                required
+                            />
                             <Field
                                 autoComplete="email"
                                 component={RFTextField}
