@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import MuiTypography from '@material-ui/core/Typography';
+import MuiTypography, { TypographyProps } from '@material-ui/core/Typography';
+
 
 const styles = (theme) => ({
   markedH2Center: {
@@ -44,7 +45,16 @@ const variantMapping = {
   subtitle1: 'h3',
 };
 
-function Typography(props) {
+export interface ITypographyProps extends TypographyProps {
+  className?: string;
+  children?: React.ReactNode;
+  classes: object;
+  marked?: false | 'center' | 'left';
+  component?: string;
+  gutterBottom?: boolean;
+}
+
+function Typography(props: ITypographyProps) {
   const { children, classes, marked = false, variant, ...other } = props;
 
   return (
@@ -57,14 +67,5 @@ function Typography(props) {
   );
 }
 
-Typography.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-  classes: PropTypes.object.isRequired,
-  marked: PropTypes.oneOf([false, 'center', 'left']),
-  variant: PropTypes.string,
-  component: PropTypes.string,
-  gutterBottom: PropTypes.bool
-};
 
 export default withStyles(styles)(Typography);
