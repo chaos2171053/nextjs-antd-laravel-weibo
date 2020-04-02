@@ -2,11 +2,13 @@
 
 namespace App\Exceptions;
 
+use App\Helpers\ApiResponse;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
 
 class Handler extends ExceptionHandler
 {
+    use ApiResponse;
     /**
      * A list of the exception types that are not reported.
      *
@@ -50,6 +52,10 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Throwable $exception)
     {
+        // 401 未登录 https://stackoverflow.com/questions/42657180/respond-with-status-code-401-on-authentication-failure-using-laravel-and-passpor
+        if ($request->expectsJson()) {
+            return $this->error('登录过期', 401);
+        }
         return parent::render($request, $exception);
     }
 }
