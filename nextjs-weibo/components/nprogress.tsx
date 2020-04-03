@@ -1,6 +1,6 @@
 import NProgress from "nprogress";
 import Router from "next/router";
-import "./ngprogress.scss";
+import './nprogress.scss'
 let timeout;
 // TODO 组件替换为 https://material-ui.com/components/progress/
 const start = () => {
