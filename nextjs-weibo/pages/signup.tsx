@@ -13,7 +13,8 @@ import RFTextField from '../themes/chaos-ui/modules/form/RFTextField';
 import FormButton from '../themes/chaos-ui/modules/form/FormButton';
 import FormFeedback from '../themes/chaos-ui/modules/form/FormFeedback';
 import withRoot from '../themes/chaos-ui/modules/WithRoot';
-
+import { apiUerSignIn } from '../apis/auth';
+import Router from 'next/router'
 const useStyles = makeStyles((theme) => ({
     form: {
         marginTop: theme.spacing(6),
@@ -34,9 +35,6 @@ function SignUp() {
 
     const validate = (values) => {
         const errors = required(['name', 'email', 'password'], values);
-        if (!errors.name) {
-            errors.name = 'name is required'
-        }
         if (!errors.email) {
             const emailError = email(values.email);
             if (emailError) {
@@ -47,8 +45,11 @@ function SignUp() {
         return errors;
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (values) => {
         setSent(true);
+        // postSignUp(values).then(() => {
+        //     Router.replace('/')
+        // })
     };
 
     return (
@@ -124,4 +125,5 @@ function SignUp() {
     );
 }
 
+// TODO 实现HOC如果已经登录，跳转到首页
 export default withRoot(SignUp);

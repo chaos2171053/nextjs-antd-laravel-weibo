@@ -1,7 +1,5 @@
 interface IConfig {
     hosts: { [key: string]: string };
-    successErrno: number;
-    authErrno: number;
     theme: {
         title: string;
         keywords: string;
@@ -12,19 +10,41 @@ interface IConfig {
         author: string;
         authorDescription: string;
     };
-    format: {
-        errno: string;
-        errmsg: string;
-        data: string;
-        page: string;
-        pageSize: string;
-        currentPage: string;
-        count: string;
-        totalPages: string;
-    };
+    // format: {
+    //     errno: string;
+    //     errmsg: string;
+    //     data: string;
+    //     page: string;
+    //     pageSize: string;
+    //     currentPage: string;
+    //     count: string;
+    //     totalPages: string;
+    // };
 }
-
-const config: IConfig = {
+function getApiUrl() {
+    const ENV = process.env.API_URL;
+    let api = '';
+    switch (ENV) {
+        case 'local':
+            api = 'http://127.0.0.1:8080';
+            break;
+        case 'dev':
+            api = 'http://127.0.0.1:8080';
+        case 'test':
+            api = 'http://127.0.0.1:7002';
+            break;
+        case 'pre':
+            api = 'http://127.0.0.1:7002';
+            break;
+        case 'prod':
+            api = 'http://www.buduangeng365.cn';
+            break;
+        default:
+            api = 'http://127.0.0.1:7002';
+    }
+    return api;
+}
+const AppConfig: IConfig = {
     theme: {
         title: "weibo",
         author: "Chaos",
@@ -36,53 +56,18 @@ const config: IConfig = {
         avatar:
             "https://himg.bdimg.com/sys/portrait/item/pp.1.e362bdb9.PYp19GYscDTVWf3o08qoDw.jpg?tt=1579260592789"
     },
-    hosts: { api: "" },
-    successErrno: 0,
-    authErrno: 401,
-    format: {
-        errno: "code",
-        errmsg: "msg",
-        data: "data",
-        page: "page",
-        pageSize: "size",
-        currentPage: "current",
-        count: "total",
-        totalPages: "totalPage"
-    }
+    hosts: { api: getApiUrl() },
+    // format: {
+    //     errno: "code",
+    //     errmsg: "msg",
+    //     data: "data",
+    //     page: "page",
+    //     pageSize: "size",
+    //     currentPage: "current",
+    //     count: "total",
+    //     totalPages: "totalPage"
+    // }
 };
 
-const ENV = process.env.API_URL;
 
-switch (ENV) {
-    case "local":
-        config.hosts = {
-            api: "http://127.0.0.1:8080/api"
-        };
-        break;
-    case "dev":
-        config.hosts = {
-            api: "http://127.0.0.1:8080/api" // 不能使用 //缺省协议
-        };
-        break;
-    case "test":
-        config.hosts = {
-            api: "//"
-        };
-        break;
-    case "pre":
-        config.hosts = {
-            api: "//"
-        };
-        break;
-    case "prod":
-        config.hosts = {
-            api: "http://www.buduangeng365.cn/api"
-        };
-        break;
-    default:
-        config.hosts = {
-            api: "http://www.buduangeng365.cn/api"
-        };
-}
-
-export default config;
+export default AppConfig;
