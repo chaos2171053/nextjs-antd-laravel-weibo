@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Header from "../components/header";
 
 import Page from "../components/page";
@@ -8,7 +8,6 @@ import webConfig from "../config/config";
 import withRoot from "../themes/chaos-ui/modules/WithRoot";
 import AppAppBar from "../themes/chaos-ui/modules/views/AppAppBar";
 import AppFooter from "../themes/chaos-ui/modules/views/AppFooter";
-import { incrementCounter, decrementCounter } from "../store/modules/user";
 import { connect } from "react-redux";
 
 
@@ -19,18 +18,14 @@ interface IProps {
 
 
 const mapStateToProps = state => ({
-  counter: state.counter.value
 });
 
 const mapDispatchToProps = {
-  incrementCounter: incrementCounter,
-  decrementCounter: decrementCounter,
 };
 
 const IndexPage = (props: IProps) => {
   const { } = props;
   useEffect(() => {
-    props.incrementCounter()
     return () => {
 
     }
@@ -43,7 +38,6 @@ const IndexPage = (props: IProps) => {
         <SocialMeta {...webConfig.theme} />
         <AppAppBar />
         <AppFooter />
-        <div>{props.counter}</div>
       </Page>
     </>
   );

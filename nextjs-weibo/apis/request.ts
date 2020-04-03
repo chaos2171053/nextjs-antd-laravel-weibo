@@ -3,6 +3,7 @@ import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
 import AppConfig from '../config/config';
 import { getValue } from '../utils/localstorage'
 import Router from 'next/router'
+import { logout } from '../store/modules/user';
 // import store from '../store/index';
 // import { logout } from '../store/module/user';
 // import { clearSideBarRoutes } from '../store/module/app';
@@ -46,8 +47,7 @@ axios.interceptors.response.use(
 
         // 登录已过期或者未登录
         if (response.data.code === 401) {
-            // TODO use redux to logout
-            // dispatch logout()
+            logout()
             Router.replace(`/signin?redirectURL=${encodeURIComponent(window.location.href)}`)
             return Promise.reject(new Error(response.data.message));
 
