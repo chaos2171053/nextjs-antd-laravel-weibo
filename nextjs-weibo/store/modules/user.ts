@@ -1,9 +1,11 @@
 import { Reducer } from 'redux';
-import { setValue, removeValue } from "../../utils/localstorage";
+import { setValue, removeValue, getValue } from "../../utils/localstorage";
 import { IStoreAction } from "../types";
 
+// types
 const SET_USER_INFO = 'SET_USER_INFO';
 const SET_USER_LOGOUT = 'SET_USER_LOGOUT';
+const GET_USER_INFO = 'GET_USER_INFO '
 
 export interface UserState {
     id: number;
@@ -38,6 +40,10 @@ export const logout: () => IStoreAction<null> = () => ({
     payload: null,
 });
 
+export const getUserInfo: () => IStoreAction<UserState> = () => ({
+    type: GET_USER_INFO,
+    payload: null,
+})
 
 //Reducer
 const userReducer: Reducer<UserState, IStoreAction<any>> = (
@@ -48,16 +54,22 @@ const userReducer: Reducer<UserState, IStoreAction<any>> = (
 
     switch (type) {
         case SET_USER_INFO:
-            setValue('token', payload.token);
+            setValue('Token', payload.token);
             setValue(USER_KEY, payload);
             return {
                 ...payload,
             };
         case SET_USER_LOGOUT:
-            removeValue('token');
+            removeValue('Token');
             removeValue(USER_KEY);
+            // TODO 
             return {
                 ...defaultUser,
+            };
+        case GET_USER_INFO:
+            const user = getValue(USER_KEY, defaultUser)
+            return {
+                ...user,
             };
         default:
             return state;

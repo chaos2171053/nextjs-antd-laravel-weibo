@@ -1,4 +1,5 @@
 interface IConfig {
+    AppName: string;
     hosts: { [key: string]: string };
     theme: {
         title: string;
@@ -10,6 +11,7 @@ interface IConfig {
         author: string;
         authorDescription: string;
     };
+    TOKEN_KEY: string;
     // format: {
     //     errno: string;
     //     errmsg: string;
@@ -45,6 +47,7 @@ function getApiUrl() {
     return api;
 }
 const AppConfig: IConfig = {
+    AppName: 'nextjs-weibo',
     theme: {
         title: "weibo",
         author: "Chaos",
@@ -57,6 +60,8 @@ const AppConfig: IConfig = {
             "https://himg.bdimg.com/sys/portrait/item/pp.1.e362bdb9.PYp19GYscDTVWf3o08qoDw.jpg?tt=1579260592789"
     },
     hosts: { api: getApiUrl() },
+    // 本地存储token 的key
+    TOKEN_KEY: 'Nextjs_Token_key',
     // format: {
     //     errno: "code",
     //     errmsg: "msg",

@@ -1,12 +1,10 @@
 import axios, { AxiosRequestConfig, AxiosError, AxiosResponse } from 'axios';
-// import { message, Modal } from 'antd';
 import AppConfig from '../config/config';
-import { getValue } from '../utils/localstorage'
+
 import Router from 'next/router'
 import { logout } from '../store/modules/user';
-// import store from '../store/index';
-// import { logout } from '../store/module/user';
-// import { clearSideBarRoutes } from '../store/module/app';
+import { getValue } from '../utils/localstorage';
+
 export interface ResponseData<T> {
     code: number;
 
@@ -16,19 +14,18 @@ export interface ResponseData<T> {
 }
 
 
-// 指定 axios 请求类型
+
 axios.defaults.timeout = 3000;
 axios.defaults.headers = {
     'Content-Type': 'application/json;charset=utf-8',
 };
 
-// 指定请求地址
+// 请求地址
 axios.defaults.baseURL = AppConfig.hosts.api;
-// 添加请求拦截器
+// 请求拦截器
 axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-        const token = getValue('token');
-        // 获取用户token，用于校验
+        const token = getValue('Token');
         if (token) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -37,7 +34,7 @@ axios.interceptors.request.use(
     (error: AxiosError) => Promise.reject(error),
 );
 
-// 添加响应拦截器，拦截登录过期或者没有权限
+// 响应拦截
 
 axios.interceptors.response.use(
     (response: AxiosResponse<ResponseData<any>>) => {
@@ -63,7 +60,7 @@ axios.interceptors.response.use(
     },
 );
 
-// 统一发起请求的函数
+// 统一发起请求
 export function request<T>(options: AxiosRequestConfig) {
     return axios.request<T>(options);
 }

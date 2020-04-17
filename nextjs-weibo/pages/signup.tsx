@@ -6,7 +6,7 @@ import Link from '@material-ui/core/Link';
 import { Field, Form, FormSpy } from 'react-final-form';
 import Typography from '../themes/chaos-ui/modules/components/Typography';
 import AppFooter from '../themes/chaos-ui/modules/views/AppFooter';
-import AppAppBar from '../themes/chaos-ui/modules/views/AppAppBar';
+import AppAppBar from '../themes/chaos-ui/modules/views/AppHeader';
 import AppForm from '../themes/chaos-ui/modules/views/AppForm';
 import { email, required } from '../themes/chaos-ui/modules/form/validation';
 import RFTextField from '../themes/chaos-ui/modules/form/RFTextField';

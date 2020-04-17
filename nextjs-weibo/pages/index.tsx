@@ -6,14 +6,12 @@ import Page from "../components/page";
 import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
 import withRoot from "../themes/chaos-ui/modules/WithRoot";
-import AppAppBar from "../themes/chaos-ui/modules/views/AppAppBar";
+import AppHeader from "../themes/chaos-ui/modules/views/AppHeader";
 import AppFooter from "../themes/chaos-ui/modules/views/AppFooter";
 import { connect } from "react-redux";
 
 
 interface IProps {
-  counter: number;
-  incrementCounter: Function;
 }
 
 
@@ -36,7 +34,7 @@ const IndexPage = (props: IProps) => {
       <Header shadow></Header>
       <Page title="首页 微博-随时随地发现新鲜事">
         <SocialMeta {...webConfig.theme} />
-        <AppAppBar />
+        <AppHeader />
         <AppFooter />
       </Page>
     </>

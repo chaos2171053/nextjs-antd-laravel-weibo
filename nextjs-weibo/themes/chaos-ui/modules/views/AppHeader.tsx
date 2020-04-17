@@ -1,11 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import { withStyles } from '@material-ui/core/styles';
+import { withStyles, StyledComponentProps } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
+import { UserState } from '../../../../store/modules/user';
+import { getValue } from '../../../../utils/localstorage';
 
+interface IProps extends StyledComponentProps {
+
+}
 const styles = (theme) => ({
     title: {
         fontSize: 24,
@@ -36,8 +40,9 @@ const styles = (theme) => ({
 });
 
 
-function AppAppBar(props) {
+function AppHeader(props: IProps) {
     const { classes } = props;
+    const token = getValue('Token')
 
     return (
         <div>
@@ -62,23 +67,28 @@ function AppAppBar(props) {
                         >
                             {'Help'}
                         </Link>
-                        <Link
-                            color="inherit"
-                            variant="h6"
-                            underline="none"
-                            className={classes.rightLink}
-                            href="/signin/"
-                        >
-                            {'Sign In'}
-                        </Link>
-                        <Link
-                            variant="h6"
-                            underline="none"
-                            className={clsx(classes.rightLink, classes.linkSecondary)}
-                            href="/signup"
-                        >
-                            {'Sign Up'}
-                        </Link>
+                        {
+                            token ? null : (
+                                <>
+                                    <Link
+                                        color="inherit"
+                                        variant="h6"
+                                        underline="none"
+                                        className={classes.rightLink}
+                                        href="/signin/"
+                                    >
+                                        {'Sign In'}
+                                    </Link>
+                                    <Link
+                                        variant="h6"
+                                        underline="none"
+                                        className={clsx(classes.rightLink, classes.linkSecondary)}
+                                        href="/signup"
+                                    >
+                                        {'Sign Up'}
+                                    </Link>
+                                </>)
+                        }
                     </div>
                 </Toolbar>
             </AppBar>
@@ -87,9 +97,5 @@ function AppAppBar(props) {
     );
 }
 
-AppAppBar.propTypes = {
-    classes: PropTypes.object.isRequired,
-    link: PropTypes.element
-};
 
-export default withStyles(styles)(AppAppBar);
+export default withStyles(styles)(AppHeader);
