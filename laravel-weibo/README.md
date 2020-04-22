@@ -22,6 +22,12 @@ in `.env` file,
 DB_HOST=use your local ip,no 127.0.0.1
 
 4.
+``
+docker-compose run --rm artisan migrate
+``
+``
+php artisan passport:client
+``
 enjoy your coding
 
 4.
@@ -44,6 +50,8 @@ git subtree add --prefix=<prefix> <repository> <ref>
 `
 git subtree split --prefix=<project name or file name> --branch <branch name>
 `
+
+php artisan passport:client
 
 3) if you want to share your code to this project
 
@@ -83,6 +91,11 @@ composer dump-autoload
 
 
 
+
+## TODO
+
+* [ ] split dirctroies into different services dictory.
+* [ ] support compose bash
 
 
 ### Reference 
