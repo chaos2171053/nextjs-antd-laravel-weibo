@@ -28,21 +28,22 @@ function getApiUrl() {
     let api = '';
     switch (ENV) {
         case 'local':
-            api = 'http://127.0.0.1:8080';
+            api = 'http://laravelweibo.test';
             break;
         case 'dev':
-            api = 'http://127.0.0.1:8080';
+            api = 'http://laravelweibo.test';
+            break;
         case 'test':
-            api = 'http://127.0.0.1:7002';
+            api = 'http://laravelweibo.test';
             break;
         case 'pre':
-            api = 'http://127.0.0.1:7002';
+            api = 'http://laravelweibo.test';
             break;
         case 'prod':
-            api = 'http://www.buduangeng365.cn';
+            api = 'http://laravelweibo.test';
             break;
         default:
-            api = 'http://127.0.0.1:7002';
+            api = 'http://laravelweibo.test';
     }
     return api;
 }

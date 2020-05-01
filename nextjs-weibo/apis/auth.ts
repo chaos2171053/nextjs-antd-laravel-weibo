@@ -1,15 +1,15 @@
 import { request } from "./request";
 
-interface IUser {
+export interface IUser {
     name: string;
     password: string;
     email: string;
 }
 
-export function apiUerSignIn(data: IUser) {
+export function apiUerSignUp(data: IUser) {
     return request({
         method: 'POST',
-        url: '/api/v1/sign_in',
+        url: '/api/v1/users/register',
         data,
     });
 }

@@ -8,25 +8,29 @@ const SET_USER_LOGOUT = 'SET_USER_LOGOUT';
 const GET_USER_INFO = 'GET_USER_INFO '
 
 export interface UserState {
-    id: number;
-    token: string;
+    id?: number;
+    name?: string;
+    email?: string;
+    token?: string;
     created_at?: string;
     updated_at?: string;
-    email?: string;
     avatar?: string | undefined;
     mobile?: string;
     role?: number;
+    password?: string;
 }
 
 const USER_KEY = 'nextjs-weibo-user';
 
 const defaultUser: UserState = {
-    token: '',
-    avatar: undefined,
-    email: '',
-    mobile: '',
+    token: null,
+    avatar: null,
+    email: null,
+    mobile: null,
     role: 0,
     id: 0,
+    password: null,
+    name: null,
 };
 
 //Action Creator

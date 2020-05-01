@@ -1,6 +1,6 @@
 
 // --- Post bootstrap -----
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import { Field, Form, FormSpy } from 'react-final-form';
@@ -13,8 +13,12 @@ import RFTextField from '../themes/chaos-ui/modules/form/RFTextField';
 import FormButton from '../themes/chaos-ui/modules/form/FormButton';
 import FormFeedback from '../themes/chaos-ui/modules/form/FormFeedback';
 import withRoot from '../themes/chaos-ui/modules/WithRoot';
-import { apiUerSignIn } from '../apis/auth';
+import { apiUerSignUp } from '../apis/auth';
+import MyAlert from '../components/alert';
+import AlertDialog from '../components/dialog';
+import { DialogContentText } from '@material-ui/core';
 import Router from 'next/router'
+
 const useStyles = makeStyles((theme) => ({
     form: {
         marginTop: theme.spacing(6),
@@ -31,7 +35,10 @@ const useStyles = makeStyles((theme) => ({
 
 function SignUp() {
     const classes = useStyles();
-    const [sent, setSent] = React.useState(false);
+    const [sent, setSent] = useState(false);
+    const [ajaxMessage, setShowAjaxMessage] = useState('')
+    const [showAlert, setShowAlert] = useState(false)
+    const [showDialog, setShowDialog] = useState(false)
 
     const validate = (values) => {
         const errors = required(['name', 'email', 'password'], values);
@@ -41,19 +48,49 @@ function SignUp() {
                 errors.email = emailError;
             }
         }
+        if (values.password && values.password.length < 8) {
+            errors.password = 'password at least has 8 characters'
+        }
+
 
         return errors;
     };
 
     const handleSubmit = (values) => {
         setSent(true);
-        // postSignUp(values).then(() => {
-        //     Router.replace('/')
-        // })
+        setShowAlert(false)
+        console.log(1231)
+        apiUerSignUp(values).then(res => {
+            console.log(res)
+            setShowDialog(true)
+            setSent(false);
+        }).catch(err => {
+            setSent(false);
+            setShowAjaxMessage(err)
+            setShowAlert(true)
+        })
     };
+
+    const handleDiloagClose = () => {
+        setShowDialog(false)
+    }
+
 
     return (
         <React.Fragment>
+            <MyAlert severity='error' show={showAlert}>
+                {ajaxMessage}
+            </MyAlert>
+            <AlertDialog
+                open={showDialog}
+                handleClose={handleDiloagClose}
+                handleCancel={handleDiloagClose}
+                handleOk={() => Router.push('/signin')}
+                title='sign up success!'>
+                <DialogContentText>
+                    {'Go to login?'}
+                </DialogContentText>
+            </AlertDialog >
             <AppAppBar />
             <AppForm>
                 <React.Fragment>
@@ -119,11 +156,10 @@ function SignUp() {
                         </form>
                     )}
                 </Form>
-            </AppForm>
+            </AppForm >
             <AppFooter />
-        </React.Fragment>
+        </React.Fragment >
     );
 }
 
-// TODO 实现HOC如果已经登录，跳转到首页
 export default withRoot(SignUp);

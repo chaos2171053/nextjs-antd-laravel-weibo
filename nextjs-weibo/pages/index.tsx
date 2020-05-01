@@ -42,6 +42,7 @@ const IndexPage = (props: IProps) => {
 };
 
 IndexPage.getInitialProps = async context => {
+
   return {}
 };
 
