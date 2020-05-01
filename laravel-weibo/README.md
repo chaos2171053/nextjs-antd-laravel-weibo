@@ -15,6 +15,9 @@ cd src && composer create-project laravel/laravel .
 `
 cd ../ && docker-compose up -d  --build
 `
+`
+docker-compose run --rm artisan key:generate
+`
 
 3.
 
