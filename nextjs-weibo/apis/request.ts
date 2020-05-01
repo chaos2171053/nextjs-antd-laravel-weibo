@@ -4,7 +4,6 @@ import AppConfig from '../config/config';
 import Router from 'next/router'
 import { logout } from '../store/modules/user';
 import { getValue } from '../utils/localstorage';
-
 export interface ResponseData<T> {
     code: number;
 
@@ -13,20 +12,28 @@ export interface ResponseData<T> {
     message: string;
 }
 
+interface IPropsRequest extends AxiosRequestConfig {
+    cookies?: any;
+    isServer?: boolean;
+}
 
 
 axios.defaults.timeout = 3000;
 axios.defaults.headers = {
     'Content-Type': 'application/json;charset=utf-8',
+    // 'Access-Control-Allow-Origin': '*',
+    'Accept': 'application/json'
 };
 
 // 请求地址
 axios.defaults.baseURL = AppConfig.hosts.api;
+// 打开cookie
+// axios.defaults.withCredentials = true
 // 请求拦截器
 axios.interceptors.request.use(
     (config: AxiosRequestConfig) => {
         const token = getValue('Token');
-        if (token) {
+        if (token && !config.headers.Authorization) {
             config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
@@ -38,6 +45,8 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     (response: AxiosResponse<ResponseData<any>>) => {
+        let errors = []
+        let errMessages = []
         if (!response.data) {
             return Promise.resolve(response);
         }
@@ -53,14 +62,22 @@ axios.interceptors.response.use(
         if (response.data.code === 200) {
             return response.data as any;
         }
-        return Promise.reject(new Error(response.data.message));
+        Object.keys(response.data.data).map(err => errors.push(response.data.data[err]))
+        console.error(errors);
+        return Promise.reject(errors);
     },
     (error: AxiosError) => {
         return Promise.reject(error);
     },
 );
 
+
 // 统一发起请求
-export function request<T>(options: AxiosRequestConfig) {
+export function request<T>(options: IPropsRequest) {
+    const { isServer = false, cookies = {} } = options
+    if (isServer) {
+        // TODO 如果是服务端，把 config.headers.Authorization = `Bearer ${token}`; 里面的token从cookie里面取
+        options.headers.cookies = cookies
+    }
     return axios.request<T>(options);
 }
