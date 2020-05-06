@@ -1,8 +1,7 @@
 
 // --- Post bootstrap -----
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
 import { Field, Form, FormSpy } from 'react-final-form';
 import Typography from '../themes/chaos-ui/modules/components/Typography';
 import AppFooter from '../themes/chaos-ui/modules/views/AppFooter';
@@ -13,11 +12,12 @@ import RFTextField from '../themes/chaos-ui/modules/form/RFTextField';
 import FormButton from '../themes/chaos-ui/modules/form/FormButton';
 import FormFeedback from '../themes/chaos-ui/modules/form/FormFeedback';
 import withRoot from '../themes/chaos-ui/modules/WithRoot';
-import { apiUerSignUp } from '../apis/auth';
+import { apiUerSignInByEmailPwd } from '../apis/auth';
 import MyAlert from '../components/alert';
-import AlertDialog from '../components/dialog';
-import { DialogContentText } from '@material-ui/core';
 import Router from 'next/router'
+import { connect } from "react-redux";
+import { setUserInfo } from "../store/modules/user";
+import { getValue } from '../utils/localstorage';
 
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -32,16 +32,26 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+const mapStateToProps = state => ({
 
-function SignUp() {
+});
+
+const mapDispatchToProps = {
+    setUserInfo
+};
+interface IProps {
+    setUserInfo: Function;
+}
+
+function SignIn(props: IProps) {
+    const { setUserInfo } = props
     const classes = useStyles();
     const [sent, setSent] = useState(false);
     const [ajaxMessage, setShowAjaxMessage] = useState('')
     const [showAlert, setShowAlert] = useState(false)
-    const [showDialog, setShowDialog] = useState(false)
 
     const validate = (values) => {
-        const errors = required(['name', 'email', 'password'], values);
+        const errors = required(['email', 'password'], values);
         if (!errors.email) {
             const emailError = email(values.email);
             if (emailError) {
@@ -59,11 +69,16 @@ function SignUp() {
     const handleSubmit = (values) => {
         setSent(true);
         setShowAlert(false)
-        console.log(1231)
-        apiUerSignUp(values).then(res => {
-            console.log(res)
-            setShowDialog(true)
+        apiUerSignInByEmailPwd(values).then(res => {
+            const params = new URLSearchParams(window.location.search);
+            const redirectURL = params.get('redirectURL');
             setSent(false);
+            setUserInfo(res)
+            if (redirectURL) {
+                Router.replace(redirectURL)
+                return;
+            }
+            Router.replace('/')
         }).catch(err => {
             setSent(false);
             setShowAjaxMessage(err)
@@ -71,9 +86,12 @@ function SignUp() {
         })
     };
 
-    const handleDiloagClose = () => {
-        setShowDialog(false)
-    }
+
+    useEffect(() => {
+        if (getValue('Token')) {
+            Router.push('/')
+        }
+    }, [])
 
 
     return (
@@ -81,40 +99,16 @@ function SignUp() {
             <MyAlert severity='error' show={showAlert}>
                 {ajaxMessage}
             </MyAlert>
-            <AlertDialog
-                open={showDialog}
-                handleClose={handleDiloagClose}
-                handleCancel={handleDiloagClose}
-                handleOk={() => Router.push('/signin')}
-                title='sign up success!'>
-                <DialogContentText>
-                    {'Go to login?'}
-                </DialogContentText>
-            </AlertDialog >
             <AppAppBar />
             <AppForm>
                 <React.Fragment>
                     <Typography variant="h3" gutterBottom marked="center" align="center">
-                        Sign Up
-          </Typography>
-                    <Typography variant="body2" align="center">
-                        <Link href="/premium-themes/onepirate/sign-in/" underline="always">
-                            Already have an account?
-            </Link>
+                        Sign In
                     </Typography>
                 </React.Fragment>
                 <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
                     {({ handleSubmit, submitting }) => (
                         <form onSubmit={handleSubmit} className={classes.form} noValidate>
-                            <Field
-                                autoFocus
-                                component={RFTextField}
-                                autoComplete="Name"
-                                fullWidth
-                                label="Name"
-                                name="name"
-                                required
-                            />
                             <Field
                                 autoComplete="email"
                                 component={RFTextField}
@@ -151,7 +145,7 @@ function SignUp() {
                                 color="secondary"
                                 fullWidth
                             >
-                                {submitting || sent ? 'In progress…' : 'Sign Up'}
+                                {submitting || sent ? 'In progress…' : 'Sign In'}
                             </FormButton>
                         </form>
                     )}
@@ -162,4 +156,4 @@ function SignUp() {
     );
 }
 
-export default withRoot(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(withRoot(SignIn));

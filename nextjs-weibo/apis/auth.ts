@@ -1,7 +1,7 @@
 import { request } from "./request";
 
 export interface IUser {
-    name: string;
+    name?: string;
     password: string;
     email: string;
 }
@@ -13,3 +13,11 @@ export function apiUerSignUp(data: IUser) {
         data,
     });
 }
+export function apiUerSignInByEmailPwd(data: IUser) {
+    return request({
+        method: 'POST',
+        url: '/api/v1/users/password-login',
+        data,
+    });
+}
+

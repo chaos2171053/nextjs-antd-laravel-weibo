@@ -1,6 +1,7 @@
 import { Reducer } from 'redux';
 import { setValue, removeValue, getValue } from "../../utils/localstorage";
 import { IStoreAction } from "../types";
+import { setCookieVal, removeCookieVal } from '../../utils/cookie';
 
 // types
 const SET_USER_INFO = 'SET_USER_INFO';
@@ -55,18 +56,24 @@ const userReducer: Reducer<UserState, IStoreAction<any>> = (
     action: IStoreAction<any>,
 ) => {
     const { type, payload } = action;
-
     switch (type) {
         case SET_USER_INFO:
             setValue('Token', payload.token);
             setValue(USER_KEY, payload);
+            setCookieVal({
+                ctx: payload.ctx,
+                key: 'Token',
+                value: payload.token,
+                maxAge: payload.expiresIn
+            })
             return {
+                ...state,
                 ...payload,
             };
         case SET_USER_LOGOUT:
             removeValue('Token');
             removeValue(USER_KEY);
-            // TODO 
+            removeCookieVal({ ctx: payload.ctx, key: 'Token' })
             return {
                 ...defaultUser,
             };
