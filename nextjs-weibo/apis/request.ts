@@ -4,6 +4,7 @@ import AppConfig from '../config/config';
 import Router from 'next/router'
 import { logout } from '../store/modules/user';
 import { getValue } from '../utils/localstorage';
+import { getCookieVal } from '../utils/cookie';
 export interface ResponseData<T> {
     code: number;
 
@@ -13,8 +14,8 @@ export interface ResponseData<T> {
 }
 
 interface IPropsRequest extends AxiosRequestConfig {
-    cookies?: any;
-    isServer?: boolean;
+    ctx?: any;
+    options?: any;
 }
 
 
@@ -31,8 +32,13 @@ axios.defaults.baseURL = AppConfig.hosts.api;
 // axios.defaults.withCredentials = true
 // 请求拦截器
 axios.interceptors.request.use(
-    (config: AxiosRequestConfig) => {
-        const token = getValue('Token');
+    (config: IPropsRequest) => {
+        let token;
+        if (process.browser) {
+            token = getValue('Token');
+        } else {
+            token = getCookieVal(config.ctx, config.options)
+        }
         if (token && !config.headers.Authorization) {
             config.headers.Authorization = `Bearer ${token}`;
         }
@@ -46,11 +52,6 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     (response: AxiosResponse<ResponseData<any>>) => {
         let errors = []
-        let errMessages = []
-        if (!response.data) {
-            return Promise.resolve(response);
-        }
-
         // 登录已过期或者未登录
         if (response.data.code === 401) {
             logout()
@@ -60,7 +61,7 @@ axios.interceptors.response.use(
         }
         // 请求成功
         if (response.data.code === 200) {
-            return response.data as any;
+            return response.data.data as any;
         }
         Object.keys(response.data.data).map(err => errors.push(response.data.data[err]))
         console.error(errors);
@@ -74,10 +75,5 @@ axios.interceptors.response.use(
 
 // 统一发起请求
 export function request<T>(options: IPropsRequest) {
-    const { isServer = false, cookies = {} } = options
-    if (isServer) {
-        // TODO 如果是服务端，把 config.headers.Authorization = `Bearer ${token}`; 里面的token从cookie里面取
-        options.headers.cookies = cookies
-    }
     return axios.request<T>(options);
 }
