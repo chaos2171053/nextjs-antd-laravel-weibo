@@ -73,7 +73,9 @@ function SignIn(props: IProps) {
             const params = new URLSearchParams(window.location.search);
             const redirectURL = params.get('redirectURL');
             setSent(false);
-            setUserInfo(res)
+            setUserInfo(Object.assign({}, res, {
+                email: values.email
+            }))
             if (redirectURL) {
                 Router.replace(redirectURL)
                 return;

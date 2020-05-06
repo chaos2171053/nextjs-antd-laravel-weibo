@@ -17,7 +17,7 @@ export function setValue(key: string, data: any) {
   localStorage.setItem(key, stringify(data));
 }
 
-export function getValue<T>(key: string, defaultValue?: T): T | null {
+export function getValue<T>(key: string, defaultValue?: T): any {
   if (!process.browser) {
     return null
   }
