@@ -1,25 +1,20 @@
 // import cookie from 'js-cookie';
+import { setCookie, destroyCookie, parseCookies } from 'nookies'
+export const setCookieVal = ({ ctx = null, key = '', value = '', maxAge = '', path = '', ...others }) => {
+    setCookie(ctx, key, value, {
+        maxAge,
+        path,
+        ...others
+    })
+};
 
-// export const setCookie = (key, value) => {
-//     if (process.browser) {
-//         cookie.set(key, value, {
-//             expires: 1,
-//             path: '/'
-//         });
-//     }
-// };
+export const removeCookieVal = ({ ctx = null, key }) => {
+    destroyCookie(ctx, key)
+};
 
-// export const removeCookie = key => {
-//     if (process.browser) {
-//         cookie.remove(key, {
-//             expires: 1
-//         });
-//     }
-// };
-
-// export const getCookie = (key, req) => {
-//     return process.browser ? getCookieFromBrowser(key) : getCookieFromServer(key, req);
-// };
+export const getCookieVal = (ctx = null, options) => {
+    return parseCookies(ctx, options)
+};
 
 // const getCookieFromBrowser = key => {
 //     return cookie.get(key);
@@ -35,4 +30,3 @@
 //     }
 //     return rawCookie.split('=')[1];
 // };
-export default {}
