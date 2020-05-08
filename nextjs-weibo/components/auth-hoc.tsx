@@ -1,27 +1,30 @@
 import React, { useEffect } from 'react'
 import { connect } from "react-redux";
-import { UserState, setUserInfo } from '../store/modules/user';
+import { UserState, setUserInfo, logout } from '../store/modules/user';
 import { useRouter } from 'next/router'
-interface IProps {
+export interface IAuthProps {
     userInfo: UserState;
     children?: React.ReactNode;
     setUserInfo: Function;
+    dispatchLogout: Function
 }
 const mapStateToProps = state => ({
     userInfo: state.user
 });
 const mapDispatchToProps = {
-    setUserInfo
+    setUserInfo,
+    dispatchLogout: logout
 };
 
 
 function WithAuthHoc(WarpperComponent) {
 
-    function Auth(props: IProps) {
-        const { userInfo, setUserInfo } = props
+    function Auth(props: IAuthProps) {
+        const { userInfo, setUserInfo, dispatchLogout } = props
         const auths = {
             userInfo,
-            setUserInfo
+            setUserInfo,
+            dispatchLogout
         }
         const router = useRouter()
         useEffect(() => {

@@ -5,12 +5,10 @@ import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
 import { Button, ClickAwayListener, MenuItem, MenuList, Paper, Grow, Popper } from '@material-ui/core';
-import { logout as dispatchLogout, UserState } from '../../../../store/modules/user'
+import { UserState } from '../../../../store/modules/user'
 import { useRouter } from 'next/router'
-import WithAuthHoc from '../../../../components/auth-hoc'
-interface IProps extends StyledComponentProps {
-    dispatchLogout: Function;
-    userInfo: UserState;
+import WithAuthHoc, { IAuthProps } from '../../../../components/auth-hoc'
+interface IProps extends StyledComponentProps, IAuthProps {
 }
 const styles = (theme) => ({
     title: {
