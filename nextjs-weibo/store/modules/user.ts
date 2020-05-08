@@ -23,7 +23,9 @@ export interface UserState {
 
 const USER_KEY = 'nextjs-weibo-user';
 
-const defaultUser: UserState = {
+const getUserInfoFromrBowser = getValue(USER_KEY)
+
+const defaultUser: UserState = getUserInfoFromrBowser ? getUserInfoFromrBowser : {
     token: null,
     avatar: null,
     email: null,
@@ -73,7 +75,7 @@ const userReducer: Reducer<UserState, IStoreAction<any>> = (
         case SET_USER_LOGOUT:
             removeValue('Token');
             removeValue(USER_KEY);
-            removeCookieVal({ ctx: payload.ctx, key: 'Token' })
+            removeCookieVal({ ctx: null, key: 'Token' })
             return {
                 ...defaultUser,
             };

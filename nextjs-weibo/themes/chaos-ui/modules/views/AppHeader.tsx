@@ -4,11 +4,13 @@ import { withStyles, StyledComponentProps } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
-import { getValue } from '../../../../utils/localstorage';
 import { Button, ClickAwayListener, MenuItem, MenuList, Paper, Grow, Popper } from '@material-ui/core';
-
+import { logout as dispatchLogout, UserState } from '../../../../store/modules/user'
+import { useRouter } from 'next/router'
+import WithAuthHoc from '../../../../components/auth-hoc'
 interface IProps extends StyledComponentProps {
-
+    dispatchLogout: Function;
+    userInfo: UserState;
 }
 const styles = (theme) => ({
     title: {
@@ -51,11 +53,10 @@ const styles = (theme) => ({
 
 
 function AppHeader(props: IProps) {
-    const { classes } = props;
-    const token = getValue('Token')
+    const { classes, dispatchLogout, userInfo } = props;
+    const router = useRouter()
     const anchorRef = React.useRef<HTMLButtonElement>(null);
     const [open, setOpen] = React.useState(false);
-    const [userInfo, setUserInfo] = React.useState({ email: null })
     const handleToggle = () => {
         setOpen((prevOpen) => !prevOpen);
     };
@@ -63,22 +64,25 @@ function AppHeader(props: IProps) {
         if (anchorRef.current && anchorRef.current.contains(event.target as HTMLElement)) {
             return;
         }
-
         setOpen(false);
     };
-    function handleListKeyDown(event: React.KeyboardEvent) {
-        if (event.key === 'Tab') {
-            event.preventDefault();
-            setOpen(false);
-        }
-    }
-    useEffect(() => {
-        const userInfo = getValue('nextjs-weibo-user')
-        setUserInfo(userInfo)
-        return () => {
+    const handleMenuItemClick = (event: React.MouseEvent<HTMLElement>, key: string) => {
+        switch (key) {
+            case 'profile':
+                router.push('/profile')
+                break;
+            case 'userLogout':
+                dispatchLogout();
+                router.replace('/')
+                break;
 
+            default:
+                break;
         }
-    }, [])
+
+        handleClose(event);
+    };
+
     return (
         <div>
             <AppBar position="fixed">
@@ -104,7 +108,7 @@ function AppHeader(props: IProps) {
                             {'Help'}
                         </Link>
                         {
-                            token ? null : (
+                            userInfo.token ? null : (
                                 <>
                                     <Link
                                         color="inherit"
@@ -126,7 +130,7 @@ function AppHeader(props: IProps) {
                                 </>)
                         }
                         {
-                            token ?
+                            userInfo.token ?
                                 <>
                                     <Button
                                         ref={anchorRef}
@@ -145,10 +149,10 @@ function AppHeader(props: IProps) {
                                             >
                                                 <Paper>
                                                     <ClickAwayListener onClickAway={handleClose}>
-                                                        <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
-                                                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                                                            <MenuItem onClick={handleClose}>Edit My account</MenuItem>
-                                                            <MenuItem onClick={handleClose}>Logout</MenuItem>
+                                                        <MenuList autoFocusItem={open} id="menu-list-grow">
+                                                            <MenuItem onClick={(event) => handleMenuItemClick(event, 'member')} >Member</MenuItem>
+                                                            <MenuItem onClick={(event) => handleMenuItemClick(event, 'profile')} >Profile</MenuItem>
+                                                            <MenuItem onClick={(event) => handleMenuItemClick(event, 'userLogout')} >Logout</MenuItem>
                                                         </MenuList>
                                                     </ClickAwayListener>
                                                 </Paper>
@@ -165,5 +169,4 @@ function AppHeader(props: IProps) {
     );
 }
 
-
-export default withStyles(styles)(AppHeader);
+export default WithAuthHoc(withStyles(styles)(AppHeader))
