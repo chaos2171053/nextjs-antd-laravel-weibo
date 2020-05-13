@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		},
+		{
+			"path": "../laravel-skeleton"
+		},
+		{
+			"path": "../antd-pro-admin-skeleton"
+		}
+	],
+	"settings": {}
+}
