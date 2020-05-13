@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "../layout/header";
 
 import Page from "../components/page";
 
@@ -20,7 +19,6 @@ const HelpPage = (props: IProps) => {
 
     return (
         <>
-            <Header shadow></Header>
             <Page title="Help-Weibo-find some fun">
                 <SocialMeta {...webConfig.theme} />
 

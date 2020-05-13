@@ -1,9 +1,16 @@
 import React from 'react';
-
-function BaseLayout() {
+import Header from './header'
+interface IProps {
+    children?: React.ReactNode;
+}
+function BaseLayout(props: IProps) {
+    const { children } = props;
     return (
         <>
-
+            <Header />
+            {
+                children
+            }
         </>
     )
 }

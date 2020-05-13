@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Header from "../layout/header";
 
 import Page from "../components/page";
 
@@ -20,7 +19,6 @@ const AboutPage = (props: IProps) => {
 
     return (
         <>
-            <Header shadow></Header>
             <Page title="关于-微博-随时随地发现新鲜事">
                 <SocialMeta {...webConfig.theme} />
 

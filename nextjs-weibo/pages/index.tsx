@@ -1,22 +1,13 @@
 import React, { useEffect } from "react";
-import Header from "../layout/header";
-
 import Page from "../components/page";
-
 import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
-import { connect } from "react-redux";
 import AppLayout from '../layout/AppLayout'
+import { Jumbotron, Button } from "react-bootstrap";
 
 interface IProps {
 }
 
-
-const mapStateToProps = state => ({
-});
-
-const mapDispatchToProps = {
-};
 
 const IndexPage = (props: IProps) => {
   const { } = props;
@@ -28,10 +19,20 @@ const IndexPage = (props: IProps) => {
 
   return (
     <>
-      <Header shadow></Header>
       <Page title="首页 微博-随时随地发现新鲜事">
         <SocialMeta {...webConfig.theme} />
-        <AppLayout></AppLayout>
+        <AppLayout>
+          <Jumbotron>
+            <h1>Hello, world!</h1>
+            <p>
+              This is a simple hero unit, a simple jumbotron-style component for calling
+              extra attention to featured content or information.
+            </p>
+            <p>
+              <Button variant="primary">Learn more</Button>
+            </p>
+          </Jumbotron>
+        </AppLayout>
       </Page>
     </>
   );
@@ -43,4 +44,4 @@ IndexPage.getInitialProps = async context => {
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(IndexPage);
+export default IndexPage;
