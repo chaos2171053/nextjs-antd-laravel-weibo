@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "../components/header";
+import Header from "../layout/header";
 
 import Page from "../components/page";
 
@@ -21,7 +21,7 @@ const HelpPage = (props: IProps) => {
     return (
         <>
             <Header shadow></Header>
-            <Page title="帮助-微博-随时随地发现新鲜事">
+            <Page title="Help-Weibo-find some fun">
                 <SocialMeta {...webConfig.theme} />
 
             </Page>

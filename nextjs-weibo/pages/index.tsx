@@ -1,12 +1,12 @@
 import React, { useEffect } from "react";
-import Header from "../components/header";
+import Header from "../layout/header";
 
 import Page from "../components/page";
 
 import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
 import { connect } from "react-redux";
-
+import AppLayout from '../layout/AppLayout'
 
 interface IProps {
 }
@@ -31,6 +31,7 @@ const IndexPage = (props: IProps) => {
       <Header shadow></Header>
       <Page title="首页 微博-随时随地发现新鲜事">
         <SocialMeta {...webConfig.theme} />
+        <AppLayout></AppLayout>
       </Page>
     </>
   );

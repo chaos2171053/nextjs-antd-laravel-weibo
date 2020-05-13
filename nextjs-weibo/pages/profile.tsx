@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react';
 
 import { apiUpdateUserPwd } from '../apis/auth';
-import WithAuthHoc, { IAuthProps } from '../components/auth-hoc'
+import WithAuthHoc, { IAuthProps } from '../container/Auth'
 
 
 interface IProps extends IAuthProps {

@@ -1,6 +1,6 @@
 import NProgress from "nprogress";
 import Router from "next/router";
-import './nprogress.scss'
+import '../styles/nprogress.scss'
 let timeout;
 const start = () => {
   timeout = setTimeout(NProgress.start, 100);
