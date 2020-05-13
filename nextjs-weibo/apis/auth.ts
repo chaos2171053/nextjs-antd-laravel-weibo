@@ -20,4 +20,12 @@ export function apiUerSignInByEmailPwd(data: IUser) {
         data,
     });
 }
+export function apiUpdateUserPwd(id: number, data: IUser) {
+    return request({
+        method: 'put',
+        url: '/api/v1/users/' + id,
+        data,
+    });
+}
+
 

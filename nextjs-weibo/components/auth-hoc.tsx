@@ -34,7 +34,7 @@ function WithAuthHoc(WarpperComponent) {
             return () => {
 
             }
-        }, [userInfo])
+        }, [userInfo.token])
         return (
             <>
                 <WarpperComponent  {...auths} />
