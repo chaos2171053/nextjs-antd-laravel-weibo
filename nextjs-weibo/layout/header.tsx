@@ -22,7 +22,7 @@ export default function Header(props) {
           </Nav>
           <Nav>
             <Nav.Link href="/help">Help</Nav.Link>
-            <Nav.Link href="/help">Login</Nav.Link>
+            <Nav.Link href="/sign-in">Sign In</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

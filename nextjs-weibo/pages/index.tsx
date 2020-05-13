@@ -3,7 +3,8 @@ import Page from "../components/page";
 import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
 import AppLayout from '../layout/AppLayout'
-import { Jumbotron, Button } from "react-bootstrap";
+import { Jumbotron, Button, Navbar } from "react-bootstrap";
+import { withRouter } from "next/router";
 
 interface IProps {
 }
@@ -23,13 +24,13 @@ const IndexPage = (props: IProps) => {
         <SocialMeta {...webConfig.theme} />
         <AppLayout>
           <Jumbotron>
-            <h1>Hello, world!</h1>
+            <h1>Hello!</h1>
             <p>
-              This is a simple hero unit, a simple jumbotron-style component for calling
-              extra attention to featured content or information.
+              Welcome to Weibo.
             </p>
             <p>
-              <Button variant="primary">Learn more</Button>
+              <Button variant="primary" href="/sign-up">Sign Up</Button>
+
             </p>
           </Jumbotron>
         </AppLayout>
