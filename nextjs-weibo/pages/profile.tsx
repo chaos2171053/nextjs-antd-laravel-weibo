@@ -1,6 +1,6 @@
 
 // --- Post bootstrap -----
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Field, Form, FormSpy } from 'react-final-form';
 import Typography from '../themes/chaos-ui/modules/components/Typography';
@@ -12,10 +12,8 @@ import RFTextField from '../themes/chaos-ui/modules/form/RFTextField';
 import FormButton from '../themes/chaos-ui/modules/form/FormButton';
 import FormFeedback from '../themes/chaos-ui/modules/form/FormFeedback';
 import withRoot from '../themes/chaos-ui/modules/WithRoot';
-import { apiUerSignInByEmailPwd } from '../apis/auth';
+import { apiUpdateUserPwd } from '../apis/auth';
 import MyAlert from '../components/alert';
-import Router from 'next/router'
-import { connect } from "react-redux";
 import WithAuthHoc, { IAuthProps } from '../components/auth-hoc'
 const useStyles = makeStyles((theme) => ({
     form: {
@@ -29,26 +27,34 @@ const useStyles = makeStyles((theme) => ({
         marginTop: theme.spacing(2),
     },
 }));
+
 interface IProps extends IAuthProps {
 }
 
-function SignIn(props: IProps) {
-    const { setUserInfo } = props
+function Profile(props: IProps) {
+    const { userInfo } = props
     const classes = useStyles();
     const [sent, setSent] = useState(false);
     const [ajaxMessage, setShowAjaxMessage] = useState('')
     const [showAlert, setShowAlert] = useState(false)
+    const formRef = useRef(null);
 
     const validate = (values) => {
-        const errors = required(['email', 'password'], values);
+        const errors = required(['email', 'oldPassword', 'newPassword'], values);
         if (!errors.email) {
             const emailError = email(values.email);
             if (emailError) {
                 errors.email = emailError;
             }
         }
-        if (values.password && values.password.length < 8) {
-            errors.password = 'password at least has 8 characters'
+        if (values.oldPassword && values.oldPassword.length < 8) {
+            errors.oldPassword = 'password at least has 8 characters'
+        }
+        if (values.newPassword && values.newPassword.length < 8) {
+            errors.newPassword = 'password at least has 8 characters'
+        }
+        if (values.newPassword !== values.oldPassword) {
+            errors.newPassword = 'passwords are not equal'
         }
 
 
@@ -56,28 +62,23 @@ function SignIn(props: IProps) {
     };
 
     const handleSubmit = (values) => {
+        const { email, name, id } = userInfo
+        const params = {
+            email,
+            name,
+            password: values.newPassword
+        }
         setSent(true);
         setShowAlert(false)
-        apiUerSignInByEmailPwd(values).then(res => {
-            const params = new URLSearchParams(window.location.search);
-            const redirectURL = params.get('redirectURL');
-            setSent(false);
-            console.log(res.userInfo)
-            setUserInfo({
-                ...res,
-            })
-            if (redirectURL) {
-                Router.replace(redirectURL)
-                return;
-            }
-            Router.replace('/')
+        apiUpdateUserPwd(id, params).then(res => {
+            setShowAjaxMessage('更新成功')
+            setShowAlert(true)
         }).catch(err => {
             setSent(false);
             setShowAjaxMessage(err)
             setShowAlert(true)
         })
     };
-
 
 
     return (
@@ -89,16 +90,21 @@ function SignIn(props: IProps) {
             <AppForm>
                 <React.Fragment>
                     <Typography variant="h3" gutterBottom marked="center" align="center">
-                        Sign In
+                        Update Profile
                     </Typography>
                 </React.Fragment>
-                <Form onSubmit={handleSubmit} subscription={{ submitting: true }} validate={validate}>
-                    {({ handleSubmit, submitting }) => (
+                <Form
+                    onSubmit={handleSubmit}
+                    subscription={{ submitting: true }}
+                    validate={validate}
+                    initialValues={{ email: userInfo.email }}
+                >
+                    {({ handleSubmit, submitting, form: { reset } }) => (
                         <form onSubmit={handleSubmit} className={classes.form} noValidate>
                             <Field
                                 autoComplete="email"
                                 component={RFTextField}
-                                disabled={submitting || sent}
+                                disabled={true}
                                 fullWidth
                                 label="Email"
                                 margin="normal"
@@ -110,11 +116,24 @@ function SignIn(props: IProps) {
                                 component={RFTextField}
                                 disabled={submitting || sent}
                                 required
-                                name="password"
-                                autoComplete="current-password"
-                                label="Password"
+                                name="oldPassword"
+                                autoComplete="old-password"
+                                label="Old Password"
                                 type="password"
                                 margin="normal"
+
+                            />
+                            <Field
+                                fullWidth
+                                component={RFTextField}
+                                disabled={submitting || sent}
+                                required
+                                name="newPassword"
+                                autoComplete="new-password"
+                                label="New Password"
+                                type="password"
+                                margin="normal"
+
                             />
                             <FormSpy subscription={{ submitError: true }}>
                                 {({ submitError }) =>
@@ -131,7 +150,7 @@ function SignIn(props: IProps) {
                                 color="secondary"
                                 fullWidth
                             >
-                                {submitting || sent ? 'In progress…' : 'Sign In'}
+                                {submitting || sent ? 'In progress…' : 'Update'}
                             </FormButton>
                         </form>
                     )}
@@ -141,5 +160,4 @@ function SignIn(props: IProps) {
         </React.Fragment >
     );
 }
-export default WithAuthHoc(withRoot(SignIn))
-//export default connect(mapStateToProps, mapDispatchToProps)(withRoot(SignIn));
+export default WithAuthHoc(withRoot(Profile))

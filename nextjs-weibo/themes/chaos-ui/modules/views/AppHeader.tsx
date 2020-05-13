@@ -5,7 +5,6 @@ import Link from '@material-ui/core/Link';
 import AppBar from '../components/AppBar';
 import Toolbar, { styles as toolbarStyles } from '../components/Toolbar';
 import { Button, ClickAwayListener, MenuItem, MenuList, Paper, Grow, Popper } from '@material-ui/core';
-import { UserState } from '../../../../store/modules/user'
 import { useRouter } from 'next/router'
 import WithAuthHoc, { IAuthProps } from '../../../../components/auth-hoc'
 interface IProps extends StyledComponentProps, IAuthProps {
