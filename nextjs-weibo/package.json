@@ -8,9 +8,11 @@
     "build": "export API_URL=prod && next build && PORT=3001 npm start"
   },
   "dependencies": {
+    "@types/yup": "^0.28.3",
     "@zeit/next-less": "^1.0.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.5.0",
+    "formik": "^2.1.4",
     "less": "^3.11.1",
     "next": "9.3.2",
     "next-redux-wrapper": "^5.0.0",
@@ -23,7 +25,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-logger": "^3.0.6",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.28.5"
   },
   "devDependencies": {
     "@types/node": "^13.9.8",
