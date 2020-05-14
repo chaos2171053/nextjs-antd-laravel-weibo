@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import Page from "../components/page";
 import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
-import AppLayout from '../layout/AppLayout'
+import BaseLayout from '../layout/base-layout'
 import { Jumbotron, Button, Navbar } from "react-bootstrap";
 import { withRouter } from "next/router";
 
@@ -20,9 +20,9 @@ const IndexPage = (props: IProps) => {
 
   return (
     <>
-      <Page title="首页 微博-随时随地发现新鲜事">
+      <Page title="weibo-find some fun">
         <SocialMeta {...webConfig.theme} />
-        <AppLayout>
+        <BaseLayout>
           <Jumbotron>
             <h1>Hello!</h1>
             <p>
@@ -33,7 +33,7 @@ const IndexPage = (props: IProps) => {
 
             </p>
           </Jumbotron>
-        </AppLayout>
+        </BaseLayout>
       </Page>
     </>
   );

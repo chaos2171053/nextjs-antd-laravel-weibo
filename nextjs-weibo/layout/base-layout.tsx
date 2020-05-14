@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './header'
-import Footer from './footer'
+import Footer from './hooter'
 import { Container } from 'react-bootstrap';
 import '../styles/layout.less'
 interface IProps {

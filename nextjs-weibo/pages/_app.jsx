@@ -3,7 +3,7 @@ import Progress from "../components/nprogress";
 import { Provider } from 'react-redux';
 import withRedux from "next-redux-wrapper";
 import store from '../store/index';
-import '../styles/App.scss'
+import '../styles/app.less'
 //makeStore function that returns a new store for every request
 const makeStore = () => store;
 
