@@ -1,13 +1,15 @@
-const withSass = require('@zeit/next-sass')
+
+const withLess = require("@zeit/next-less");
 const config = {
+    experimental: { scss: true },
     env: {
         API_URL: process.env.API_URL
     }
 }
-const sass = withSass({
-    cssModules: true,
-})
+const less = withLess({
+
+});
 module.exports = {
     ...config,
-    ...sass,
+    ...less
 }

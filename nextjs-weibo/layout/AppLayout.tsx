@@ -1,6 +1,8 @@
 import React from 'react';
 import Header from './header'
 import Footer from './footer'
+import { Container } from 'react-bootstrap';
+import '../styles/layout.less'
 interface IProps {
     children?: React.ReactNode;
 }
@@ -9,9 +11,14 @@ function BaseLayout(props: IProps) {
     return (
         <>
             <Header />
-            {
-                children
-            }
+            <Container>
+                <div className="container__body">
+                    {
+                        children
+                    }
+                </div>
+            </Container>
+
             <Footer />
         </>
     )
