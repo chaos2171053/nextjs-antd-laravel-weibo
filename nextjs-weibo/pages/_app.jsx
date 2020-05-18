@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 import withRedux from "next-redux-wrapper";
 import store from '../store/index';
 import '../styles/app.less'
+import MyToast from '../components/toast'
+
 //makeStore function that returns a new store for every request
 const makeStore = () => store;
 
@@ -11,8 +13,10 @@ const makeStore = () => store;
 function MyApp({ Component, pageProps }) {
     return (
         <>
-            <Progress />
+
             <Provider store={store}>
+                <Progress />
+                <MyToast />
                 <Component {...pageProps} />
             </Provider>
 
