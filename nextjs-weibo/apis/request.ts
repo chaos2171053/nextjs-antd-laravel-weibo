@@ -51,7 +51,7 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
     (response: AxiosResponse<ResponseData<any>>) => {
-        let errors = []
+        let errors = ''
         // 登录已过期或者未登录
         if (response.data.code === 401) {
             logout()
@@ -63,7 +63,7 @@ axios.interceptors.response.use(
         if (response.data.code === 200) {
             return response.data.data as any;
         }
-        Object.keys(response.data.data).map(err => errors.push(response.data.data[err]))
+        Object.keys(response.data.data).map(err => errors += ` ${err}: ${response.data.data[err]}`)
         console.error(errors);
         return Promise.reject(errors);
     },

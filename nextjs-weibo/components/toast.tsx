@@ -15,18 +15,18 @@ const mapDispatchToProps = {
 export interface IToastProps extends ToastProps {
     showToast: boolean;
     setUi: Function;
-    toatMsg: string;
+    toastMsg: string;
     toastTitle: string;
 }
 
 function MyToast(props: IToastProps) {
-    const { showToast, setUi, toatMsg, toastTitle } = props
+    const { showToast, setUi, toastMsg, toastTitle } = props
 
     useEffect(() => {
         if (showToast) {
-            // setTimeout(() => {
-            //     setUi({ showToast: false })
-            // }, 3000)
+            setTimeout(() => {
+                setUi({ showToast: false })
+            }, 3000)
         }
         return () => {
 
@@ -37,15 +37,10 @@ function MyToast(props: IToastProps) {
             <Col>
                 <Toast onClose={() => setUi({ showToast: false })} show={showToast}>
                     <Toast.Header>
-                        <img
-                            src="holder.js/20x20?text=%20"
-                            className="rounded mr-2"
-                            alt=""
-                        />
-                        <strong className="mr-auto">{toastTitle}</strong>
+                        <strong className="mr-auto">{toastTitle ? toastTitle : 'Error'}</strong>
                         {/* <small>11 mins ago</small> */}
                     </Toast.Header>
-                    <Toast.Body>{toatMsg}</Toast.Body>
+                    <Toast.Body>{toastMsg}</Toast.Body>
                 </Toast>
             </Col>
         </Row >
