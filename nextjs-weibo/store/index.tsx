@@ -3,12 +3,14 @@ import reduxThunk from 'redux-thunk';
 import reduxLogger from 'redux-logger';
 import { composeWithDevTools } from "redux-devtools-extension";
 import userReducer from './modules/user';
+import uiReducer from './modules/ui'
 import { combineReducers } from 'redux';
 import { IStoreState, IStoreAction } from './types';
 
 
 const reducers: Reducer<IStoreState, IStoreAction<any>> = combineReducers<IStoreState>({
     user: userReducer,
+    ui: uiReducer,
 });
 const middleware: Middleware[] = [reduxThunk];
 if (process.env.NODE_ENV !== 'production') {
