@@ -13,10 +13,10 @@ const mapDispatchToProps = {
 };
 
 export interface IToastProps extends ToastProps {
-    showToast: boolean;
+    showToast?: boolean;
     setUi: Function;
-    toastMsg: string;
-    toastTitle: string;
+    toastMsg?: string;
+    toastTitle?: string;
 }
 
 function MyToast(props: IToastProps) {
@@ -48,4 +48,4 @@ function MyToast(props: IToastProps) {
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(memo(MyToast))
+export default MyToast

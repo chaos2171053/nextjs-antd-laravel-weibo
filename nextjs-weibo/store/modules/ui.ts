@@ -13,7 +13,8 @@ export interface UiState {
 
 const defaultUi: UiState = {
     showToast: false,
-    toastMsg: ''
+    toastMsg: '',
+    toastTitle: ''
 
 }
 
