@@ -29,6 +29,7 @@
     "yup": "^0.28.5"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-decorators": "^7.8.3",
     "@types/node": "^13.9.8",
     "@types/react": "^16.9.29",
     "@types/react-redux": "^7.1.7",

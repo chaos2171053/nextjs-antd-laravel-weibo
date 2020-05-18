@@ -5,6 +5,9 @@
             "displayName": true,
             "preprocess": false
         }],
+        ["@babel/plugin-proposal-decorators", {
+            "legacy": true
+        }]
     ],
     "presets": ["next/babel"]
 }
