@@ -10,12 +10,18 @@ import webConfig from '../config/config'
 import Page from '../components/page';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
+import UIContainer from '../container/ui'
+import { useRouter } from 'next/router'
+
+interface IProps {
+    setUi: Function;
+}
 
 
-
-
-
-function SignUp() {
+function SignUp(props: IProps) {
+    const { setUi } = props
+    const [isSubmit, setSubmit] = useState(false);
+    const router = useRouter()
     const schema = Yup.object().shape({
         formBasicName: Yup.string()
             .required()
@@ -35,8 +41,22 @@ function SignUp() {
 
     });
 
-    const handleFormSubmit = (event) => {
-        console.log(event)
+    const handleFormSubmit = (values) => {
+        const { formBasicName, formBasicEmail, formBasicPassword } = values
+        setSubmit(true)
+        apiUerSignUp({
+            name: formBasicName,
+            email: formBasicEmail,
+            password: formBasicPassword
+        }).then(res => {
+            setUi({ showToast: true, toastMsg: 'Sign in Success' })
+            setTimeout(() => {
+                router.push('/sign-in')
+            }, 1000)
+        }).catch(e => {
+            setSubmit(false)
+            setUi({ showToast: true, toastMsg: e })
+        })
     }
 
     return (
@@ -124,9 +144,9 @@ function SignUp() {
                                                     {errors.formBasicComfirmPassword}
                                                 </Form.Text>}
                                             </Form.Group>
-                                            <Button variant="primary" type="submit">
-                                                Submit
-                                             </Button>
+                                            <Button variant="primary" type="submit" disabled={isSubmit}>
+                                                {isSubmit ? 'Loading…' : 'Submit'}
+                                            </Button>
                                         </Form>)}
                             </Formik>
                         </Card.Body>
@@ -137,4 +157,4 @@ function SignUp() {
     );
 }
 
-export default SignUp;
+export default UIContainer(SignUp);
