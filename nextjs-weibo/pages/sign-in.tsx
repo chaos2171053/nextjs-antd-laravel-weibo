@@ -2,7 +2,7 @@
 // --- Post bootstrap -----
 import React, { useState, } from 'react';
 import { apiUerSignInByEmailPwd } from '../apis/auth';
-import WithAuthHoc, { IAuthProps } from '../container/Auth'
+import WithAuthHoc, { IAuthProps } from '../container/auth'
 interface IProps extends IAuthProps {
 }
 
