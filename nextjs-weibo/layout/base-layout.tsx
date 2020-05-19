@@ -8,11 +8,11 @@ import UIContainer from '../container/ui'
 import MyToast from '../components/toast'
 import { UiState } from '../store/modules/ui'
 interface IProps extends UiState {
-    children?: React.ReactNode;
+    children?: any;
     setUi?: Function;
     ui?: UiState;
 }
-function BaseLayout(props) {
+function BaseLayout(props: IProps) {
     const { children, setUi, ui } = props;
     return (
         <>
