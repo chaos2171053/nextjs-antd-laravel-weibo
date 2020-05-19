@@ -3,8 +3,7 @@ import Page from "../components/page";
 import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
 import BaseLayout from '../layout/base-layout'
-import { Jumbotron, Button, Navbar } from "react-bootstrap";
-import { withRouter } from "next/router";
+import { Jumbotron, Button } from "react-bootstrap";
 
 interface IProps {
 }

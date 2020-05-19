@@ -6,7 +6,7 @@ const SET_UI = 'SET_UI';
 
 
 export interface UiState {
-    showToast: boolean;
+    showToast?: boolean;
     toastMsg?: string;
     toastTitle?: string;
 }
