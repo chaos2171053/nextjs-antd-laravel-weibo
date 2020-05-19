@@ -25,7 +25,7 @@ function MyToast(props: IToastProps) {
     useEffect(() => {
         if (showToast) {
             setTimeout(() => {
-                setUi({ showToast: false })
+                setUi({ showToast: false, toastMsg: '' })
             }, 3000)
         }
         return () => {
