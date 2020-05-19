@@ -16,11 +16,11 @@ const mapDispatchToProps = {
 
 function UIContainer(WarpperComponent) {
     function UI(props: IUiProps) {
-        const { ui, setUi } = props
+        const { ui, setUi, ...others } = props
         return (
             <>
                 <MyToast setUi={setUi}  {...ui} />
-                <WarpperComponent  {...props} />
+                <WarpperComponent setUi={setUi}  {...others} />
             </>
         )
     }
