@@ -18,7 +18,7 @@ function UIContainer(WarpperComponent) {
     function UI(props: IUiProps) {
         return (
             <>
-                <WarpperComponent setUi={setUi}  {...props} />
+                <WarpperComponent  {...props} />
             </>
         )
     }

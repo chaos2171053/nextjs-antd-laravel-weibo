@@ -15,7 +15,7 @@ export interface IAuthProps extends WithRouterProps {
 function WithAuthHoc(WarpperComponent) {
 
     function Auth(props: IAuthProps) {
-        const { userInfo } = props
+        const { userInfo, children } = props
         const router = useRouter()
         useEffect(() => {
             if (!userInfo.token) {
@@ -31,11 +31,14 @@ function WithAuthHoc(WarpperComponent) {
         }, [userInfo.token])
         return (
             <>
-                <WarpperComponent  {...props} />
+                <WarpperComponent  {...props} >
+                    {children}
+                </WarpperComponent>
             </>
         )
     }
 
+    // TODO 把权限注入
     return withRouter(memo(Auth))
 }
 

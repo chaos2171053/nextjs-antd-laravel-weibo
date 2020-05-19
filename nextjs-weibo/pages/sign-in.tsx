@@ -11,7 +11,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import UIContainer from '../container/ui'
 import { useRouter } from 'next/router'
-import LoginUserInfo from '../container/login-user-info';
+import UserContainer from '../container/user';
 interface IProps {
     setUi: Function;
     setUserInfo: Function;
@@ -126,4 +126,4 @@ function SignIn(props: IProps) {
         </React.Fragment >
     );
 }
-export default LoginUserInfo(UIContainer(SignIn))
+export default UserContainer(UIContainer(SignIn))

@@ -9,7 +9,7 @@ export interface IAuthProps {
     dispatchLogout: Function;
 }
 const mapStateToProps = state => ({
-    userInfo: state.user
+    ...state.user
 });
 const mapDispatchToProps = {
     setUserInfo,
@@ -17,7 +17,7 @@ const mapDispatchToProps = {
 };
 
 
-function LoginUserInfo(WarpperComponent) {
+function UserContainer(WarpperComponent) {
 
     function UserInfo(props: IAuthProps) {
         return (
@@ -30,4 +30,4 @@ function LoginUserInfo(WarpperComponent) {
     return connect(mapStateToProps, mapDispatchToProps)(memo(UserInfo))
 }
 
-export default LoginUserInfo;
+export default UserContainer;
