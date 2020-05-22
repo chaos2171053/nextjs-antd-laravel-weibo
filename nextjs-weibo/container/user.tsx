@@ -27,7 +27,7 @@ function UserContainer(WarpperComponent) {
         )
     }
 
-    return connect(mapStateToProps, mapDispatchToProps)(memo(UserInfo))
+    return connect(mapStateToProps, mapDispatchToProps)(UserInfo as any)
 }
 
 export default UserContainer;

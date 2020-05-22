@@ -8,30 +8,38 @@ import UIContainer from '../container/ui'
 import MyToast from '../components/toast'
 import { UiState } from '../store/modules/ui'
 import UserContainer, { IAuthProps } from '../container/user'
+
 export interface IProps extends UiState, IAuthProps {
-    children?: any;
     setUi?: Function;
     ui?: UiState;
 }
-function BaseLayout(props: IProps) {
-    const { children, setUi, ui, userInfo, dispatchLogout } = props;
-    return (
-        <>
-            <Progress />
-            <MyToast setUi={setUi}  {...ui} />
-            <Header {...userInfo} onLogout={dispatchLogout} />
-            <Container>
-                <div className="container__body">
+
+function BaseLayout(props) {
+    const { children } = props
+
+
+    function Layout(layoutProps: IProps) {
+        const { setUi, ui, userInfo, dispatchLogout } = layoutProps
+        return (
+            <>
+                <Progress />
+                <MyToast setUi={setUi}  {...ui} />
+                <Header {...userInfo} onLogout={dispatchLogout} />
+                <Container>
                     {
                         children
                     }
-                </div>
-            </Container>
-
-            <Footer />
+                </Container>
+                <Footer />
+            </>
+        )
+    }
+    const WithAuthUILayout = UserContainer(UIContainer(Layout))
+    return (
+        <>
+            <WithAuthUILayout />
         </>
     )
-
-
 }
-export default UserContainer(UIContainer(BaseLayout));
+
+export default BaseLayout

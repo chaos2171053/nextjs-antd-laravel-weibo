@@ -23,7 +23,7 @@ function UIContainer(WarpperComponent) {
         )
     }
 
-    return connect(mapStateToProps, mapDispatchToProps)(memo(UI))
+    return connect(mapStateToProps, mapDispatchToProps)(UI as any)
 }
 
 export default UIContainer;
