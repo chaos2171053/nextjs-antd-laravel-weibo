@@ -2,6 +2,8 @@ import { Reducer } from 'redux';
 import { setValue, removeValue, getValue } from "../../utils/localstorage";
 import { IStoreAction } from "../types";
 import { setCookieVal, removeCookieVal } from '../../utils/cookie';
+import { setUi } from './ui'
+import { apiUerSignInByEmailPwd, apiUerSignUp } from '../../apis/auth';
 
 // types
 const SET_USER_INFO = 'SET_USER_INFO';
@@ -51,6 +53,57 @@ export const getUserInfo: () => IStoreAction<UserState> = () => ({
     type: GET_USER_INFO,
     payload: null,
 })
+
+// asynchronous action
+export const dispatchLogin = (user: {
+    email: string,
+    password: string
+}) => {
+
+    return function (dispatch) {
+        dispatch(setUi({
+            showToast: false,
+            toastMsg: '',
+        }))
+        // return promise to catch http errors.
+        return new Promise((resolve, reject) => {
+            return apiUerSignInByEmailPwd(user).then(res => {
+                dispatch(setUserInfo(res as any))
+                resolve(res)
+            }).catch(e => {
+                dispatch(setUi({ showToast: true, toastMsg: e }))
+                reject(e)
+            })
+        })
+    }
+}
+
+// asynchronous action
+export const dispatchSignUp = (user: {
+    name: string;
+    email: string;
+    password: string;
+}) => {
+    return function (dispatch) {
+        dispatch(setUi({
+            showToast: false,
+            toastMsg: '',
+        }))
+        return new Promise((resolve, reject) => {
+            return apiUerSignUp(user).then(res => {
+                dispatch(setUi({
+                    showToast: true,
+                    toastMsg: 'Sign up success',
+                }))
+                resolve(res)
+            }).catch(e => {
+                dispatch(setUi({ showToast: true, toastMsg: e }))
+                reject(e)
+            })
+        })
+    }
+}
+
 
 //Reducer
 const userReducer: Reducer<UserState, IStoreAction<any>> = (
