@@ -2,7 +2,6 @@
 // --- Post bootstrap -----
 import React, { useState, } from 'react';
 import BaseLayout from '../layout/base-layout'
-import { apiUerSignInByEmailPwd } from '../apis/auth';
 import { Card, Form, Button } from 'react-bootstrap';
 import SocialMeta from '../components/social-meta';
 import webConfig from '../config/config'
@@ -13,12 +12,11 @@ import UIContainer from '../container/ui'
 import { useRouter } from 'next/router'
 import UserContainer from '../container/user';
 interface IProps {
-    setUi: Function;
-    setUserInfo: Function;
+    dispatchLogin: Function;
 }
 
 function SignIn(props: IProps) {
-    const { setUserInfo, setUi } = props
+    const { dispatchLogin } = props
     const [isSubmit, setSubmit] = useState(false);
     const router = useRouter()
     const schema = Yup.object().shape({
@@ -36,26 +34,22 @@ function SignIn(props: IProps) {
     const handleFormSubmit = (values) => {
         const { formBasicEmail, formBasicPassword } = values
         setSubmit(true)
-        apiUerSignInByEmailPwd({
+        dispatchLogin({
             email: formBasicEmail,
             password: formBasicPassword
         }).then(res => {
             const params = new URLSearchParams(window.location.search);
             const redirectURL = params.get('redirectURL');
             let href = '/'
-            setUserInfo(res)
             if (redirectURL) {
                 href = redirectURL
             }
             router.replace(href)
         }).catch(e => {
             setSubmit(false)
-            setUi({ showToast: true, toastMsg: e })
         })
+
     }
-
-
-
 
 
     return (
@@ -126,4 +120,4 @@ function SignIn(props: IProps) {
         </React.Fragment >
     );
 }
-export default UserContainer(UIContainer(SignIn))
+export default UserContainer(SignIn)

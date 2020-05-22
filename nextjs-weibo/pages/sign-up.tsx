@@ -10,16 +10,16 @@ import webConfig from '../config/config'
 import Page from '../components/page';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-import UIContainer from '../container/ui'
 import { useRouter } from 'next/router'
+import UserContainer from '../container/user';
 
 interface IProps {
-    setUi: Function;
+    dispatchSignUp: Function
 }
 
-
+// TODO: 如果已经登录，应该不能进入该页面，需要一个中间件，看看有没有现成解决方案。
 function SignUp(props: IProps) {
-    const { setUi } = props
+    const { dispatchSignUp } = props
     const [isSubmit, setSubmit] = useState(false);
     const router = useRouter()
     const schema = Yup.object().shape({
@@ -44,24 +44,22 @@ function SignUp(props: IProps) {
     const handleFormSubmit = (values) => {
         const { formBasicName, formBasicEmail, formBasicPassword } = values
         setSubmit(true)
-        apiUerSignUp({
+        dispatchSignUp({
             name: formBasicName,
             email: formBasicEmail,
             password: formBasicPassword
         }).then(res => {
-            setUi({ showToast: true, toastMsg: 'Sign in Success' })
             setTimeout(() => {
                 router.push('/sign-in')
-            }, 1000)
+            }, 3000)
         }).catch(e => {
             setSubmit(false)
-            setUi({ showToast: true, toastMsg: e })
         })
     }
 
     return (
         <React.Fragment>
-            <Page title="sign in -find some fun">
+            <Page title="sign up -find some fun">
                 <SocialMeta {...webConfig.theme} />
                 <BaseLayout>
                     <Card>
@@ -157,4 +155,4 @@ function SignUp(props: IProps) {
     );
 }
 
-export default UIContainer(SignUp);
+export default UserContainer(SignUp);
