@@ -2,7 +2,6 @@
 // --- Post bootstrap -----
 import React, { useState } from 'react';
 import BaseLayout from '../layout/base-layout'
-import { apiUerSignUp } from '../apis/auth';
 
 import { Card, Form, Button } from 'react-bootstrap';
 import SocialMeta from '../components/social-meta';

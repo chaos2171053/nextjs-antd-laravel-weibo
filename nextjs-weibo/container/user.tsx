@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { connect } from "react-redux";
-import { UserState, setUserInfo, logout, dispatchLogin, dispatchSignUp } from '../store/modules/user';
+import { UserState, setUserInfo, logout, dispatchLogin, dispatchSignUp, dispatchUpdateUserProfile } from '../store/modules/user';
 
 export interface IAuthProps {
     userInfo: UserState;
@@ -9,6 +9,7 @@ export interface IAuthProps {
     dispatchLogout: Function;
     dispatchLogin: Function;
     dispatchSignUp: Function;
+    dispatchUpdateUserProfile: Function;
 }
 const mapStateToProps = state => ({
     ...state.user
@@ -17,7 +18,8 @@ const mapDispatchToProps = {
     setUserInfo,
     dispatchLogout: logout,
     dispatchLogin,
-    dispatchSignUp
+    dispatchSignUp,
+    dispatchUpdateUserProfile
 };
 
 

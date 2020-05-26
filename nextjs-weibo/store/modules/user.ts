@@ -3,7 +3,7 @@ import { setValue, removeValue, getValue } from "../../utils/localstorage";
 import { IStoreAction } from "../types";
 import { setCookieVal, removeCookieVal } from '../../utils/cookie';
 import { setUi } from './ui'
-import { apiUerSignInByEmailPwd, apiUerSignUp } from '../../apis/auth';
+import { apiUerSignInByEmailPwd, apiUerSignUp, apiUpdateUserProfile } from '../../apis/auth';
 
 // types
 const SET_USER_INFO = 'SET_USER_INFO';
@@ -23,7 +23,7 @@ export interface UserState {
     password?: string;
 }
 
-const USER_KEY = 'nextjs-weibo-user';
+export const USER_KEY = 'nextjs-weibo-user';
 
 const getUserInfoFromrBowser = getValue(USER_KEY)
 
@@ -104,6 +104,31 @@ export const dispatchSignUp = (user: {
     }
 }
 
+export const dispatchUpdateUserProfile = (user: {
+    name: string;
+    email: string;
+    password: string;
+    id: number;
+}) => {
+    return function (dispatch) {
+        dispatch(setUi({
+            showToast: false,
+            toastMsg: '',
+        }))
+        return new Promise((resolve, reject) => {
+            return apiUpdateUserProfile(user.id, user).then(res => {
+                dispatch(setUi({
+                    showToast: true,
+                    toastMsg: 'Update success',
+                }))
+                resolve(res)
+            }).catch(e => {
+                dispatch(setUi({ showToast: true, toastMsg: e }))
+                reject(e)
+            })
+        })
+    }
+}
 
 //Reducer
 const userReducer: Reducer<UserState, IStoreAction<any>> = (
