@@ -3,18 +3,17 @@ import { Provider } from 'react-redux';
 import withRedux from "next-redux-wrapper";
 import store from '../store/index';
 import '../styles/app.less'
-
-
+// import Progress from "../components/nprogress"; 
 //makeStore function that returns a new store for every request
 const makeStore = () => store;
 
-
+// TODO:1. 路由拦截，显示progress 
+// https://github.com/zeit/next.js/discussions/11822
 function MyApp({ Component, pageProps }) {
     return (
         <>
-
             <Provider store={store}>
-
+                {/* <Progress /> */}
                 <Component {...pageProps} />
             </Provider>
 

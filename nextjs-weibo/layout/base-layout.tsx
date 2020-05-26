@@ -3,7 +3,6 @@ import Header from './header'
 import Footer from './footer'
 import { Container } from 'react-bootstrap';
 import '../styles/layout.less'
-import Progress from "../components/nprogress";
 import UIContainer from '../container/ui'
 import MyToast from '../components/toast'
 import { UiState } from '../store/modules/ui'
@@ -22,10 +21,9 @@ function BaseLayout(props) {
         const { setUi, ui, userInfo, dispatchLogout } = layoutProps
         return (
             <>
-                <Progress />
                 <MyToast setUi={setUi}  {...ui} />
                 <Header {...userInfo} onLogout={dispatchLogout} />
-                <Container>
+                <Container className="pt-5">
                     {
                         children
                     }
