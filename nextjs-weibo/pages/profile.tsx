@@ -18,7 +18,7 @@ interface IProps {
 }
 
 function SignUp(props: IProps) {
-    const { dispatchUpdateUserProfile, userInfo } = props
+    const { dispatchUpdateUserProfile, userInfo = { name: '' } } = props
     const [isSubmit, setSubmit] = useState(false);
     const schema = Yup.object().shape({
         formBasicName: Yup.string()
