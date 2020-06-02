@@ -23,7 +23,7 @@ export default function Header(props: IProps) {
           <Nav className="mr-auto">
           </Nav>
           <Nav>
-            <Nav.Link href="/help">Help</Nav.Link>
+            <Nav.Link href="/user-list">User list</Nav.Link>
             {
               id ? (
                 <>
