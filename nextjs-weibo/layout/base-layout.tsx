@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from './header'
-import Footer from './footer'
+import Header from '../components/header'
+import Footer from '../components/footer'
 import { Container } from 'react-bootstrap';
 import '../styles/layout.less'
 import UIContainer from '../container/ui'
@@ -23,7 +23,7 @@ function BaseLayout(props) {
             <>
                 <MyToast setUi={setUi}  {...ui} />
                 <Header {...userInfo} onLogout={dispatchLogout} />
-                <Container className="pt-5">
+                <Container className="pt-5 pb-5">
                     {
                         children
                     }
