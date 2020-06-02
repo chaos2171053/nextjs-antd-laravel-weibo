@@ -66,7 +66,7 @@ function SignUp(props: IProps) {
                                 validationSchema={schema}
                                 onSubmit={handleFormSubmit}
                                 initialValues={{
-                                    formBasicName: '',
+                                    formBasicName: userInfo.name,
                                     formBasicEmail: '',
                                     formBasicPassword: '',
                                     formBasicComfirmPassword: ''
