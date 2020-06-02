@@ -37,7 +37,9 @@ axios.interceptors.request.use(
         if (process.browser) {
             token = getValue('Token');
         } else {
-            token = getCookieVal(config.ctx, config.options)
+            token = getCookieVal(config.ctx, {
+                decode: decodeURIComponent
+            }).Token
         }
         if (token && !config.headers.Authorization) {
             config.headers.Authorization = `Bearer ${token}`;

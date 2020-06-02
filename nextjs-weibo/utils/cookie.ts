@@ -12,7 +12,7 @@ export const removeCookieVal = ({ ctx = null, key }) => {
     destroyCookie(ctx, key)
 };
 
-export const getCookieVal = (ctx = null, options) => {
+export const getCookieVal = (ctx = null, options = null) => {
     return parseCookies(ctx, options)
 };
 
