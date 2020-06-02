@@ -26,9 +26,9 @@ function PaginationComponent(props: PaginationComponentIprops) {
     return (
         <>
             <Pagination className="mt-5 d-flex justify-content-center">
-                {Array.from(String(total), Number).reverse().map(page => (
-                    <Pagination.Item key={page} active={page === current - 1} onClick={onItemChange} activeLabel={'actual'}>
-                        {page + 1}
+                {Array.from(String(total), Number).map((page, index) => (
+                    <Pagination.Item key={`Pagination-${index}`} active={index === current - 1} onClick={onItemChange} activeLabel={'actual'}>
+                        {index + 1}
                     </Pagination.Item>
                 ))}
             </Pagination>
