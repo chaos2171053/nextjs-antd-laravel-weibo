@@ -3,7 +3,7 @@ import { setValue, removeValue, getValue } from "../../utils/localstorage";
 import { IStoreAction } from "../types";
 import { setCookieVal, removeCookieVal } from '../../utils/cookie';
 import { setUi } from './ui'
-import { apiUerSignInByEmailPwd, apiUerSignUp, apiUpdateUserProfile } from '../../apis/user.';
+import { apiUerSignInByEmailPwd, apiUerSignUp, apiUpdateUserProfile } from '../../apis/user';
 
 // types
 const SET_USER_INFO = 'SET_USER_INFO';
