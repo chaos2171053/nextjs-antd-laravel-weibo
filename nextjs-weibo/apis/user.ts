@@ -30,7 +30,7 @@ export function apiUpdateUserProfile(id: number, data: IUser) {
 
 
 
-export function apiGetUserList({ size = 1, page = 10, ctx = null }: { size?: number; page?: number; ctx?: any }) {
+export function apiGetUserList({ size = 10, page = 1, ctx = null }: { size?: number; page?: number; ctx?: any }) {
     return request({
         method: 'GET',
         url: `/api/v1/users?page=${page}&size=${size}`,

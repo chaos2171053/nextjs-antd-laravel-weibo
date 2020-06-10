@@ -9,5 +9,16 @@
             "legacy": true
         }]
     ],
-    "presets": ["next/babel"]
+    "presets": [
+        [
+            "next/babel",
+            {
+                "preset-env": {
+                    "targets": {
+                        "node": true
+                    }
+                }
+            }
+        ]
+    ]
 }
