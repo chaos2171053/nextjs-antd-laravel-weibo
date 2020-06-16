@@ -17,7 +17,7 @@ interface IProps {
     userInfo: UserState;
 }
 
-function SignUp(props: IProps) {
+function Profile(props: IProps) {
     const { dispatchUpdateUserProfile, userInfo = { name: '' } } = props
     const [isSubmit, setSubmit] = useState(false);
     const schema = Yup.object().shape({
@@ -152,4 +152,4 @@ function SignUp(props: IProps) {
     );
 }
 
-export default UserContainer(SignUp);
+export default UserContainer(Profile);

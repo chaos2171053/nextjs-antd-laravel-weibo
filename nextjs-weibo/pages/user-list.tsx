@@ -5,17 +5,19 @@ import Page from "../components/page";
 import SocialMeta from "../components/social-meta";
 import webConfig from "../config/config";
 import BaseLayout from "../layout/base-layout";
-import { ListGroup, Pagination } from "react-bootstrap";
+import { ListGroup, Pagination, Row, Col, Button } from "react-bootstrap";
 import PaginationComponent from '../components/pagination'
 import { apiGetUserList } from "../apis/user";
 import { UserState } from "../store/modules/user";
-
-
+import UserContainer from '../container/user';
+import { apiDestoryUser } from '../apis/user'
+import MyButton from '../components/Button'
 interface IProps {
     // total: number;
     // users: {
     //     data: Array<UserState>
     // }
+    userInfo: UserState;
 }
 interface IState {
     usersListTotal: number;
@@ -95,6 +97,7 @@ class UserList extends React.PureComponent<IProps, IState> {
             current: 1
         };
         this.onListChange = this.onListChange.bind(this);
+        this.onDeleteUser = this.onDeleteUser.bind(this)
     }
     static async getInitialProps(ctx) {
         return {}
@@ -115,15 +118,35 @@ class UserList extends React.PureComponent<IProps, IState> {
     componentDidMount() {
         this.onListChange(1)
     }
+    onDeleteUser(id) {
+        return new Promise((resolve, reject) => {
+            apiDestoryUser(id).then(() => {
+                this.setState({
+                    usersList: this.state.usersList.filter((user) => user.id !== id)
+                })
+                resolve()
+            })
+        })
+
+    }
     render() {
         const { usersList, usersListTotal, current } = this.state
+        const { userInfo } = this.props
         return (
             <Page title="User list-find some fun">
                 <SocialMeta {...webConfig.theme} />
                 <BaseLayout>
                     <ListGroup>
                         {usersList.map(user => (
-                            <ListGroup.Item key={user.id}>{user.name}</ListGroup.Item>
+                            <ListGroup.Item key={user.id}>
+                                <Row>
+                                    <Col sm={10}>    {user.name}</Col>
+                                    <Col sm={2}>
+                                        {userInfo.id === 1 && user.id !== userInfo.id && <MyButton variant="danger" onClick={() => this.onDeleteUser(user.id)}>Delete</MyButton>}
+                                    </Col>
+                                </Row>
+
+                            </ListGroup.Item>
                         ))}
                     </ListGroup>
                     {/* <PaginationComponent
@@ -144,4 +167,4 @@ class UserList extends React.PureComponent<IProps, IState> {
 }
 
 
-export default UserList;
+export default UserContainer(UserList);

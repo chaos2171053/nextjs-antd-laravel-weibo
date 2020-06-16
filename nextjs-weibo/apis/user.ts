@@ -37,3 +37,10 @@ export function apiGetUserList({ size = 10, page = 1, ctx = null }: { size?: num
         ctx: ctx
     });
 }
+
+export function apiDestoryUser(id: number) {
+    return request({
+        method: 'DELETE',
+        url: `/api/v1/users/${id}`,
+    });
+}
