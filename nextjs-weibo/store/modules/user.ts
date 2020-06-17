@@ -148,7 +148,9 @@ const userReducer: Reducer<UserState, IStoreAction<any>> = (
             })
             return {
                 ...state,
-                ...payload,
+                token: payload.token,
+                id: payload.id,
+                email: payload.email
             };
         case SET_USER_LOGOUT:
             removeValue('Token');

@@ -2,6 +2,7 @@ import React, { useEffect, memo } from 'react'
 import { UserState } from '../store/modules/user';
 import { useRouter, withRouter } from 'next/router'
 import { WithRouterProps } from 'next/dist/client/with-router';
+import UserContainer from './user';
 
 export interface IAuthProps extends WithRouterProps {
     userInfo: UserState;
@@ -18,17 +19,17 @@ function WithAuthHoc(WarpperComponent) {
         const { userInfo, children } = props
         const router = useRouter()
         useEffect(() => {
-            if (!userInfo.token) {
+            if (!userInfo.id) {
                 router.push(`/sign-in?redirectURL=${encodeURIComponent(
                     window.location.origin +
-                    props.location.pathname +
-                    props.location.search,
+                    router.pathname +
+                    window.location.search,
                 )}`)
             }
             return () => {
 
             }
-        }, [userInfo.token])
+        }, [])
         return (
             <>
                 <WarpperComponent  {...props} >
@@ -39,7 +40,7 @@ function WithAuthHoc(WarpperComponent) {
     }
 
     // TODO 把权限注入
-    return withRouter(memo(Auth))
+    return withRouter(memo(UserContainer(Auth)))
 }
 
 export default WithAuthHoc;
