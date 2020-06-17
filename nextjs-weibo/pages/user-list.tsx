@@ -12,6 +12,7 @@ import { UserState } from "../store/modules/user";
 import UserContainer from '../container/user';
 import { apiDestoryUser } from '../apis/user'
 import MyButton from '../components/Button'
+import WithAuthHoc from "../container/auth";
 interface IProps {
     // total: number;
     // users: {
@@ -167,4 +168,4 @@ class UserList extends React.PureComponent<IProps, IState> {
 }
 
 
-export default UserContainer(UserList);
+export default WithAuthHoc(UserList);
