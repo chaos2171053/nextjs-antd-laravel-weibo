@@ -6,9 +6,9 @@ import '../styles/layout.less'
 import UIContainer from '../container/ui'
 import MyToast from '../components/toast'
 import { UiState } from '../store/modules/ui'
-import UserContainer, { IAuthProps } from '../container/user'
+import UserContainer, { UserContainerProps } from '../container/user'
 
-export interface IProps extends UiState, IAuthProps {
+export interface IProps extends UiState, UserContainerProps {
     setUi?: Function;
     ui?: UiState;
 }

@@ -44,3 +44,11 @@ export function apiDestoryUser(id: number) {
         url: `/api/v1/users/${id}`,
     });
 }
+
+export function apicomfirmUserEmail() {
+    return request({
+        method: 'POST',
+        url: `/api/v1/users/comfirm-email`,
+        data: {}
+    });
+}

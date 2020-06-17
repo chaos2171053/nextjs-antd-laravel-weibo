@@ -9,7 +9,6 @@ import { ListGroup, Pagination, Row, Col, Button } from "react-bootstrap";
 import PaginationComponent from '../components/pagination'
 import { apiGetUserList } from "../apis/user";
 import { UserState } from "../store/modules/user";
-import UserContainer from '../container/user';
 import { apiDestoryUser } from '../apis/user'
 import MyButton from '../components/Button'
 import WithAuthHoc from "../container/auth";

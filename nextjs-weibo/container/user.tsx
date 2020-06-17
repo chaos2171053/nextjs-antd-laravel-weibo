@@ -1,8 +1,8 @@
 import React, { memo } from 'react'
 import { connect } from "react-redux";
-import { UserState, setUserInfo, logout, dispatchLogin, dispatchSignUp, dispatchUpdateUserProfile } from '../store/modules/user';
+import { UserState, setUserInfo, logout, dispatchLogin, dispatchSignUp, dispatchUpdateUserProfile, dispatchComfirmUserEmail } from '../store/modules/user';
 
-export interface IAuthProps {
+export interface UserContainerProps {
     userInfo: UserState;
     children?: React.ReactNode;
     setUserInfo: Function;
@@ -10,6 +10,7 @@ export interface IAuthProps {
     dispatchLogin: Function;
     dispatchSignUp: Function;
     dispatchUpdateUserProfile: Function;
+    dispatchComfirmUserEmail: Function; //  TOOD,优化dispatch导出到统一index文件
 }
 const mapStateToProps = state => ({
     ...state.user
@@ -19,13 +20,14 @@ const mapDispatchToProps = {
     dispatchLogout: logout,
     dispatchLogin,
     dispatchSignUp,
-    dispatchUpdateUserProfile
+    dispatchUpdateUserProfile,
+    dispatchComfirmUserEmail
 };
 
 
 function UserContainer(WarpperComponent) {
 
-    function UserInfo(props: IAuthProps) {
+    function UserInfo(props: UserContainerProps) {
         return (
             <>
                 <WarpperComponent  {...props} />

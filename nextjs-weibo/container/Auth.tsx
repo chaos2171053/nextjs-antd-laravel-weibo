@@ -25,6 +25,11 @@ function WithAuthHoc(WarpperComponent) {
                     router.pathname +
                     window.location.search,
                 )}`)
+                return
+            }
+            if (!userInfo.activated) {
+                router.push(`/comfirm`)
+                return
             }
             return () => {
 

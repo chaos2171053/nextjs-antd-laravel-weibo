@@ -15,6 +15,7 @@ interface IProps {
     dispatchLogin: Function;
 }
 
+// TODO：bug，已经登陆，就不应该能进入这个页面
 function SignIn(props: IProps) {
     const { dispatchLogin } = props
     const [isSubmit, setSubmit] = useState(false);
@@ -38,12 +39,12 @@ function SignIn(props: IProps) {
             email: formBasicEmail,
             password: formBasicPassword
         }).then(res => {
-            const params = new URLSearchParams(window.location.search);
-            const redirectURL = params.get('redirectURL');
-            let href = '/'
-            if (redirectURL) {
-                href = redirectURL
-            }
+            // const params = new URLSearchParams(window.location.search);
+            // const redirectURL = params.get('redirectURL');
+            let href = '/comfirm'
+            // if (redirectURL) {
+            //     href = redirectURL
+            // }
             router.replace(href)
         }).catch(e => {
             setSubmit(false)

@@ -3,12 +3,14 @@ import { setValue, removeValue, getValue } from "../../utils/localstorage";
 import { IStoreAction } from "../types";
 import { setCookieVal, removeCookieVal } from '../../utils/cookie';
 import { setUi } from './ui'
-import { apiUerSignInByEmailPwd, apiUerSignUp, apiUpdateUserProfile } from '../../apis/user';
+import { apiUerSignInByEmailPwd, apiUerSignUp, apiUpdateUserProfile, apicomfirmUserEmail } from '../../apis/user';
+import { platform } from 'os';
 
 // types
 const SET_USER_INFO = 'SET_USER_INFO';
 const SET_USER_LOGOUT = 'SET_USER_LOGOUT';
 const GET_USER_INFO = 'GET_USER_INFO '
+const COMFIRM_USER_EMAIL = 'COMFIRM_USER_EMAIL'
 
 export interface UserState {
     id?: number;
@@ -21,6 +23,7 @@ export interface UserState {
     mobile?: string;
     role?: number;
     password?: string;
+    activated?: number;
 }
 
 export const USER_KEY = 'nextjs-weibo-user';
@@ -36,10 +39,56 @@ const defaultUser: UserState = getUserInfoFromrBowser ? getUserInfoFromrBowser :
     id: 0,
     password: null,
     name: null,
+    activated: false
+};
+
+
+
+//Reducer
+const userReducer: Reducer<UserState, IStoreAction<any>> = (
+    state = defaultUser,
+    action: IStoreAction<any>,
+) => {
+    const { type, payload } = action;
+    switch (type) {
+        case SET_USER_INFO:
+            setValue('Token', payload.token);
+            setValue(USER_KEY, payload);
+            setCookieVal({
+                ctx: payload.ctx,
+                key: 'Token',
+                value: payload.token,
+                maxAge: payload.expiresIn
+            })
+            return {
+                ...state,
+                token: payload.token,
+                ...payload.userInfo
+            };
+        case SET_USER_LOGOUT:
+            removeValue('Token');
+            removeValue(USER_KEY);
+            removeCookieVal({ ctx: null, key: 'Token' })
+            return {
+                ...defaultUser,
+            };
+        case GET_USER_INFO:
+            const user = getValue(USER_KEY, defaultUser)
+            return {
+                ...user,
+            };
+        case COMFIRM_USER_EMAIL:
+            return {
+                ...state,
+                activated: 1
+            }
+        default:
+            return state;
+    }
 };
 
 //Action Creator
-export const setUserInfo: (user: UserState) => IStoreAction<UserState> = (user: UserState) => ({
+export const setUserInfo: (user) => IStoreAction<UserState> = (user: UserState) => ({
     type: SET_USER_INFO,
     payload: user,
 });
@@ -51,6 +100,11 @@ export const logout: () => IStoreAction<null> = () => ({
 
 export const getUserInfo: () => IStoreAction<UserState> = () => ({
     type: GET_USER_INFO,
+    payload: null,
+})
+
+export const comfirmUserEmail: () => IStoreAction<UserState> = () => ({
+    type: COMFIRM_USER_EMAIL,
     payload: null,
 })
 
@@ -130,43 +184,27 @@ export const dispatchUpdateUserProfile = (user: {
     }
 }
 
-//Reducer
-const userReducer: Reducer<UserState, IStoreAction<any>> = (
-    state = defaultUser,
-    action: IStoreAction<any>,
+export const dispatchComfirmUserEmail = (
 ) => {
-    const { type, payload } = action;
-    switch (type) {
-        case SET_USER_INFO:
-            setValue('Token', payload.token);
-            setValue(USER_KEY, payload);
-            setCookieVal({
-                ctx: payload.ctx,
-                key: 'Token',
-                value: payload.token,
-                maxAge: payload.expiresIn
+    return function (dispatch, getState) {
+        dispatch(setUi({
+            showToast: false,
+            toastMsg: '',
+        }))
+        return new Promise((resolve, reject) => {
+            return apicomfirmUserEmail().then(res => {
+                dispatch(setUi({
+                    showToast: true,
+                    toastMsg: 'Comfirm success',
+                }))
+                dispatch(comfirmUserEmail())
+                resolve(res)
+            }).catch(e => {
+                dispatch(setUi({ showToast: true, toastMsg: e }))
+                reject(e)
             })
-            return {
-                ...state,
-                token: payload.token,
-                id: payload.id,
-                email: payload.email
-            };
-        case SET_USER_LOGOUT:
-            removeValue('Token');
-            removeValue(USER_KEY);
-            removeCookieVal({ ctx: null, key: 'Token' })
-            return {
-                ...defaultUser,
-            };
-        case GET_USER_INFO:
-            const user = getValue(USER_KEY, defaultUser)
-            return {
-                ...user,
-            };
-        default:
-            return state;
+        })
     }
-};
+}
 
 export default userReducer;
