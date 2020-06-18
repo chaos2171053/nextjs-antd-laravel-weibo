@@ -18,11 +18,11 @@ function BaseLayout(props) {
 
 
     function Layout(layoutProps: IProps) {
-        const { setUi, ui, userInfo, dispatchLogout } = layoutProps
+        const { setUi, ui, dispatchLogout } = layoutProps
         return (
             <>
                 <MyToast setUi={setUi}  {...ui} />
-                <Header {...userInfo} onLogout={dispatchLogout} />
+                <Header onLogout={dispatchLogout} {...layoutProps} />
                 <Container className="pt-5 pb-5">
                     {
                         children

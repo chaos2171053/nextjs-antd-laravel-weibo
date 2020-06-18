@@ -39,19 +39,22 @@ const defaultUser: UserState = getUserInfoFromrBowser ? getUserInfoFromrBowser :
     id: 0,
     password: null,
     name: null,
-    activated: false
+    activated: 0
 };
 
 
+// TODO 待优化state中user的层级关系
 
 //Reducer
-const userReducer: Reducer<UserState, IStoreAction<any>> = (
-    state = defaultUser,
+const userReducer: Reducer<any, IStoreAction<any>> = (
+    state = defaultUser, // TODO 这里的state应是全局state，但是被认为是defaultUser
     action: IStoreAction<any>,
 ) => {
     const { type, payload } = action;
+    let userState = {}
     switch (type) {
         case SET_USER_INFO:
+            // TODO，待优化，这里写的不好，不适合后续修改userstate，只适合登陆时设置userstate
             setValue('Token', payload.token);
             setValue(USER_KEY, payload);
             setCookieVal({
@@ -60,11 +63,13 @@ const userReducer: Reducer<UserState, IStoreAction<any>> = (
                 value: payload.token,
                 maxAge: payload.expiresIn
             })
-            return {
+            userState = {
                 ...state,
                 token: payload.token,
                 ...payload.userInfo
-            };
+            }
+            setValue(USER_KEY, userState)
+            return userState;
         case SET_USER_LOGOUT:
             removeValue('Token');
             removeValue(USER_KEY);
@@ -78,10 +83,13 @@ const userReducer: Reducer<UserState, IStoreAction<any>> = (
                 ...user,
             };
         case COMFIRM_USER_EMAIL:
-            return {
-                ...state,
+            userState = getValue(USER_KEY)
+            userState = {
+                ...userState,
                 activated: 1
             }
+            setValue(USER_KEY, userState)
+            return userState
         default:
             return state;
     }

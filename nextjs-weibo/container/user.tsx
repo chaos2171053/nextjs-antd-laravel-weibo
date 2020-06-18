@@ -2,8 +2,7 @@ import React, { memo } from 'react'
 import { connect } from "react-redux";
 import { UserState, setUserInfo, logout, dispatchLogin, dispatchSignUp, dispatchUpdateUserProfile, dispatchComfirmUserEmail } from '../store/modules/user';
 
-export interface UserContainerProps {
-    userInfo: UserState;
+export interface UserContainerProps extends UserState {
     children?: React.ReactNode;
     setUserInfo: Function;
     dispatchLogout: Function;

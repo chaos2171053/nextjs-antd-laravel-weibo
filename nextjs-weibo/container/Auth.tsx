@@ -10,16 +10,19 @@ export interface IAuthProps extends WithRouterProps {
     setUserInfo: Function;
     dispatchLogout: Function;
     location: any;
+    activated: number;
+    id: number;
 }
 
 
 function WithAuthHoc(WarpperComponent) {
 
     function Auth(props: IAuthProps) {
-        const { userInfo, children } = props
+        const { children, id, activated } = props
         const router = useRouter()
         useEffect(() => {
-            if (!userInfo.id) {
+
+            if (!id) {
                 router.push(`/sign-in?redirectURL=${encodeURIComponent(
                     window.location.origin +
                     router.pathname +
@@ -27,7 +30,7 @@ function WithAuthHoc(WarpperComponent) {
                 )}`)
                 return
             }
-            if (!userInfo.activated) {
+            if (!activated) {
                 router.push(`/comfirm`)
                 return
             }

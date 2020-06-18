@@ -131,7 +131,7 @@ class UserList extends React.PureComponent<IProps, IState> {
     }
     render() {
         const { usersList, usersListTotal, current } = this.state
-        const { userInfo } = this.props
+        const { id } = this.props
         return (
             <Page title="User list-find some fun">
                 <SocialMeta {...webConfig.theme} />
@@ -142,7 +142,7 @@ class UserList extends React.PureComponent<IProps, IState> {
                                 <Row>
                                     <Col sm={10}>    {user.name}</Col>
                                     <Col sm={2}>
-                                        {userInfo.id === 1 && user.id !== userInfo.id && <MyButton variant="danger" onClick={() => this.onDeleteUser(user.id)}>Delete</MyButton>}
+                                        {id === 1 && user.id !== id && <MyButton variant="danger" onClick={() => this.onDeleteUser(user.id)}>Delete</MyButton>}
                                     </Col>
                                 </Row>
 
