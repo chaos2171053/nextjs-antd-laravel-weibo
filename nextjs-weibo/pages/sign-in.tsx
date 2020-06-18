@@ -11,6 +11,7 @@ import * as Yup from 'yup';
 import UIContainer from '../container/ui'
 import { useRouter } from 'next/router'
 import UserContainer from '../container/user';
+import Link from 'next/link'
 interface IProps {
     dispatchLogin: Function;
 }
@@ -96,7 +97,14 @@ function SignIn(props: IProps) {
                                                 </Form.Text>
                                             </Form.Group>
                                             <Form.Group controlId="formBasicPassword">
-                                                <Form.Label>Password</Form.Label>
+                                                <Form.Label>
+                                                    Password
+                                                    (
+                                                    <Link href="/reset-password">
+                                                        <a>forget password</a>
+                                                    </Link>
+                                                    )
+                                                </Form.Label>
                                                 <Form.Control
                                                     type="password"
                                                     placeholder="Password"
