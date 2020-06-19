@@ -74,6 +74,7 @@ axios.interceptors.response.use(
     },
 );
 
+// TODO request，使其get请求支持传入data，而不是手动在url上拼接请求参数
 
 // 统一发起请求
 export function request<T>(options: IPropsRequest) {

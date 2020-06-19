@@ -5,6 +5,7 @@ import { IStoreAction } from "../types";
 const SET_UI = 'SET_UI';
 
 
+// TODO: support toast type
 export interface UiState {
     showToast?: boolean;
     toastMsg?: string;

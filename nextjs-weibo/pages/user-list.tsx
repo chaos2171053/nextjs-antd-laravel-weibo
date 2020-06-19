@@ -12,12 +12,14 @@ import { UserState } from "../store/modules/user";
 import { apiDestoryUser } from '../apis/user'
 import MyButton from '../components/Button'
 import WithAuthHoc from "../container/auth";
+import Link from 'next/link'
 interface IProps {
     // total: number;
     // users: {
     //     data: Array<UserState>
     // }
     userInfo: UserState;
+    id: number;
 }
 interface IState {
     usersListTotal: number;
@@ -140,7 +142,12 @@ class UserList extends React.PureComponent<IProps, IState> {
                         {usersList.map(user => (
                             <ListGroup.Item key={user.id}>
                                 <Row>
-                                    <Col sm={10}>    {user.name}</Col>
+                                    <Col sm={10}>
+                                        <Link href={`/users/${user.id}`}>
+                                            <a>    {user.name}</a>
+                                        </Link>
+
+                                    </Col>
                                     <Col sm={2}>
                                         {id === 1 && user.id !== id && <MyButton variant="danger" onClick={() => this.onDeleteUser(user.id)}>Delete</MyButton>}
                                     </Col>

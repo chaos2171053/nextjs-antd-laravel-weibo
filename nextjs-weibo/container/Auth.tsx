@@ -47,7 +47,6 @@ function WithAuthHoc(WarpperComponent) {
         )
     }
 
-    // TODO 把权限注入
     return withRouter(memo(UserContainer(Auth)))
 }
 

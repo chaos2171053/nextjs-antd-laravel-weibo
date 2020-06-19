@@ -74,6 +74,7 @@ const userReducer: Reducer<any, IStoreAction<any>> = (
             removeValue('Token');
             removeValue(USER_KEY);
             removeCookieVal({ ctx: null, key: 'Token' })
+            // TODO: BUG defaultUser 浅拷贝，尝试Immutable.js
             return {
                 ...defaultUser,
             };
