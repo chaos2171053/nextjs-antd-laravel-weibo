@@ -52,3 +52,12 @@ export function apicomfirmUserEmail() {
         data: {}
     });
 }
+
+
+export function apiGetUserFeed({ size = 10, page = 1, ctx = null }: { size?: number; page?: number; ctx?: any }) {
+    return request({
+        method: 'GET',
+        url: `/api/v1/users/feed?page=${page}&size=${size}`,
+        ctx: ctx
+    });
+}
