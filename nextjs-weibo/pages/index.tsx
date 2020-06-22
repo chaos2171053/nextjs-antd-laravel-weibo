@@ -144,26 +144,24 @@ const IndexPage = (props: IProps) => {
           {id && (
             <Row className="mt-5">
               <Col>
-                <ul className="list-unstyled">
-
+                <ListGroup>
                   {feed.map(feed => (
-                    <Media as="li" key={`feed-${feed.id}`}>
-                      {/* <img
-                        width={64}
-                        height={64}
-                        className="mr-3"
-                        src="holder.js/64x64"
-                        alt="Generic placeholder"
-                      /> */}
-                      <Media.Body>
-                        <h5>{feed.name}</h5>
-                        <p>
-                          {feed.content}
-                        </p>
-                      </Media.Body>
-                    </Media>
+                    <ListGroup.Item key={feed.id}>
+                      <Row>
+                        <Col sm={10}>
+                          <Link href={`/users/${feed.user_id}`}>
+                            <a>{feed.name}</a>
+                          </Link>
+                          <p>{feed.content}</p>
+                        </Col>
+                        <Col sm={2}>
+                          {id === 1 && feed.user_id !== id && <MyButton variant="danger" onClick={() => this.onDeleteUser(id)}>Delete</MyButton>}
+                        </Col>
+                      </Row>
+
+                    </ListGroup.Item>
                   ))}
-                </ul>
+                </ListGroup>
                 <Pagination className="mt-5 d-flex justify-content-center">
                   {Array.from(String(feed.length), Number).map((page, index) => (
                     <Pagination.Item key={`Pagination-${index}`} active={index + 1 === currentPage} onClick={onFeedPageChange} >
